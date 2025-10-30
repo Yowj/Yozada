@@ -8,12 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import Image from "next/image";
 import { ThemeSwitcher } from "./theme-switcher";
-
-const categories = [
-  { name: "All", href: "/category/electronics" },
-  { name: "Shirts", href: "/category/clothing" },
-  { name: "Stickers", href: "/category/home-garden" },
-];
+import { categories } from "@/constants/categories";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);

@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:vercel.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:demo.vercel.store)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
