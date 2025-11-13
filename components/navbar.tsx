@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import Image from "next/image";
 import { ThemeSwitcher } from "./theme-switcher";
+import { AuthNav } from "./auth-nav";
 import { categories } from "@/constants/categories";
 
 export function Navbar() {
@@ -110,6 +111,7 @@ export function Navbar() {
               <span className="sr-only">Shopping cart</span>
             </Link>
           </Button>
+          <AuthNav />
         </div>
       </div>
     </nav>
