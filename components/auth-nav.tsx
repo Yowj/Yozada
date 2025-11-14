@@ -3,7 +3,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 import { User, LogOut } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
@@ -30,11 +35,9 @@ export function AuthNav() {
 
     // Subscribe to auth state changes
     const supabase = createClient();
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setUser(session?.user ? { email: session.user.email || "" } : null);
-      }
-    );
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ? { email: session.user.email || "" } : null);
+    });
 
     return () => {
       authListener?.subscription.unsubscribe();
@@ -47,36 +50,36 @@ export function AuthNav() {
 
   if (user) {
     return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="flex items-center gap-2">
-            <User className="h-5 w-5" />
-            <span className="hidden text-sm sm:inline">{user.email.split("@")[0]}</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem className="flex flex-col items-start">
-            <span className="text-xs text-muted-foreground">Signed in as</span>
-            <span className="text-sm font-medium">{user.email}</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href="/protected">Profile</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <button
-              onClick={async () => {
-                const supabase = createClient();
-                await supabase.auth.signOut();
-                setUser(null);
-              }}
-              className="w-full text-left flex items-center gap-2"
-            >
-              <LogOut className="h-4 w-4" />
-              Sign out
-            </button>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="flex items-center gap-2 h-10 px-2 sm:px-4">
+              <User className="h-5 w-5" />
+              <span className="hidden text-sm sm:inline">{user.email.split("@")[0]}</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem className="flex flex-col items-start">
+              <span className="text-xs text-muted-foreground">Signed in as</span>
+              <span className="text-sm font-medium">{user.email}</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/protected">Profile</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <button
+                onClick={async () => {
+                  const supabase = createClient();
+                  await supabase.auth.signOut();
+                  setUser(null);
+                }}
+                className="w-full text-left flex items-center gap-2"
+              >
+                <LogOut className="h-4 w-4" />
+                Sign out
+              </button>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
     );
   }
 
