@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import Image from "next/image";
 import { ThemeSwitcher } from "./theme-switcher";
+import { AuthNav } from "./auth-nav";
 import { categories } from "@/constants/categories";
 
 export function Navbar() {
@@ -99,7 +100,7 @@ export function Navbar() {
         </div>
 
         {/* Cart (Right) - Both Mobile and Desktop */}
-        <div className="flex items-center gap-4 md:w-1/3 md:justify-end">
+        <div className="flex items-center gap-2 md:gap-4 ml-auto">
           <ThemeSwitcher />
           <Button variant="ghost" size="icon" asChild>
             <Link href="/cart" className="relative">
@@ -110,6 +111,8 @@ export function Navbar() {
               <span className="sr-only">Shopping cart</span>
             </Link>
           </Button>
+
+          <AuthNav />
         </div>
       </div>
     </nav>
