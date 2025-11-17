@@ -13,13 +13,18 @@ import { categories } from "@/constants/categories";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
       <div className="mx-auto flex h-16 items-center justify-between px-4">
         {/* Mobile - Menu Button (Left) */}
         <div className="md:hidden">
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+          {mounted && <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="h-5 w-5" />
@@ -56,7 +61,7 @@ export function Navbar() {
                 </div>
               </div>
             </SheetContent>
-          </Sheet>
+          </Sheet>}
         </div>
 
         {/* Desktop - Logo and Categories (Left) */}
