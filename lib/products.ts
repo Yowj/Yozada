@@ -5,13 +5,8 @@ export interface Product {
   name: string;
   price: string;
   image: string;
-  featured?: boolean;
-  badge?: string;
 }
 
-/**
- * Fetch all products from Supabase
- */
 export async function getProducts() {
   const supabase = await createClient()
   const { data, error } = await supabase
@@ -27,9 +22,6 @@ export async function getProducts() {
   return (data || []) as Product[]
 }
 
-/**
- * Fetch featured products from Supabase
- */
 export async function getFeaturedProducts() {
   const supabase = await createClient()
   const { data, error } = await supabase
@@ -46,9 +38,6 @@ export async function getFeaturedProducts() {
   return (data || []) as Product[]
 }
 
-/**
- * Fetch a single product by ID from Supabase
- */
 export async function getProductById(id: number) {
   const supabase = await createClient()
   const { data, error } = await supabase

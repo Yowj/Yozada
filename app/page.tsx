@@ -1,7 +1,6 @@
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
@@ -11,6 +10,23 @@ import { getFeaturedProducts, getProducts } from "@/lib/products";
 export default async function Home() {
   const featuredProducts = await getFeaturedProducts();
   const products = await getProducts();
+
+  if (products.length === 0) {
+    return (
+      <>
+        <main className=" min-h-screen flex flex-col">
+          <Navbar />
+          <section className=" w-full px-4 py-8 md:py-12">
+            <div className="mx-auto max-w-7xl">
+              <p className="text-center text-2xl font-bold">No products found.</p>
+            </div>
+          </section>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
   return (
     <main className="min-h-screen flex flex-col">
       <Navbar />
@@ -35,9 +51,6 @@ export default async function Home() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    {featuredProducts[0].badge && (
-                      <Badge className="mb-2 bg-primary">{featuredProducts[0].badge}</Badge>
-                    )}
                     <h3 className="text-2xl font-bold md:text-3xl">{featuredProducts[0].name}</h3>
                     <p className="mt-2 text-xl font-semibold">{featuredProducts[0].price}</p>
                   </div>
@@ -57,9 +70,6 @@ export default async function Home() {
                     <Image src={product.image} alt={product.name} fill className="object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                      {product.badge && (
-                        <Badge className="mb-2 bg-primary text-xs">{product.badge}</Badge>
-                      )}
                       <h3 className="text-lg font-bold">{product.name}</h3>
                       <p className="mt-1 text-sm font-semibold">{product.price}</p>
                     </div>
@@ -92,9 +102,6 @@ export default async function Home() {
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-110"
                     />
-                    {product.badge && (
-                      <Badge className="absolute right-2 top-2 bg-primary">{product.badge}</Badge>
-                    )}
                   </div>
                   <div className="p-4">
                     <h3 className="mb-1 line-clamp-2 text-sm font-semibold md:text-base">

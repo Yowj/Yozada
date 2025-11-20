@@ -9,11 +9,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, ShieldCheck } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 export function AuthNav() {
-  const [user, setUser] = useState<{ email: string } | null>(null);
+  const [user, setUser] = useState<{ email: string; isAdmin: boolean } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -22,7 +22,10 @@ export function AuthNav() {
 
       try {
         const { data } = await supabase.auth.getUser();
-        setUser(data?.user ? { email: data.user.email || "" } : null);
+        setUser(data?.user ? {
+          email: data.user.email || "",
+          isAdmin: data.user.user_metadata?.role === 'admin'
+        } : null);
       } catch (error) {
         console.error("Error checking auth status:", error);
         setUser(null);
@@ -36,7 +39,10 @@ export function AuthNav() {
     // Subscribe to auth state changes
     const supabase = createClient();
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ? { email: session.user.email || "" } : null);
+      setUser(session?.user ? {
+        email: session.user.email || "",
+        isAdmin: session.user.user_metadata?.role === 'admin'
+      } : null);
     });
 
     return () => {
@@ -65,6 +71,14 @@ export function AuthNav() {
             <DropdownMenuItem asChild>
               <Link href="/protected">Profile</Link>
             </DropdownMenuItem>
+            {user.isAdmin && (
+              <DropdownMenuItem asChild>
+                <Link href="/admin" className="flex items-center gap-2">
+                  <ShieldCheck className="h-4 w-4" />
+                  Admin Dashboard
+                </Link>
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem asChild>
               <button
                 onClick={async () => {

@@ -2,7 +2,6 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { getProductById, getProducts } from "@/lib/products";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,15 +15,12 @@ interface ProductPageProps {
 export default async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
 
-  // Fetch the product from Supabase
   const product = await getProductById(parseInt(id));
-
-  // If product not found, show 404
   if (!product) {
     notFound();
   }
 
-  // Fetch all products for related products section
+
   const allProducts = await getProducts();
 
   return (
@@ -51,11 +47,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   className="object-cover"
                   priority
                 />
-                {product.badge && (
-                  <Badge className="absolute right-4 top-4 bg-primary">
-                    {product.badge}
-                  </Badge>
-                )}
               </div>
             </Card>
 
@@ -141,11 +132,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                           fill
                           className="object-cover transition-transform duration-300 group-hover:scale-110"
                         />
-                        {relatedProduct.badge && (
-                          <Badge className="absolute right-2 top-2 bg-primary">
-                            {relatedProduct.badge}
-                          </Badge>
-                        )}
+                        
                       </div>
                       <div className="p-4">
                         <h3 className="mb-1 line-clamp-2 text-sm font-semibold md:text-base">
