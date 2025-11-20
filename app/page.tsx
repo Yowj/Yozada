@@ -6,9 +6,11 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { MarqueeDemo } from "@/components/marquee-demo";
-import { featuredProducts, products } from "@/constants/products";
+import { getFeaturedProducts, getProducts } from "@/lib/products";
 
-export default function Home() {
+export default async function Home() {
+  const featuredProducts = await getFeaturedProducts();
+  const products = await getProducts();
   return (
     <main className="min-h-screen flex flex-col">
       <Navbar />

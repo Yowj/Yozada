@@ -3,7 +3,7 @@ import { Footer } from "@/components/footer";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { featuredProducts, products } from "@/constants/products";
+import { getProductById, getProducts } from "@/lib/products";
 import Image from "next/image";
 import Link from "next/link";
 import { ShoppingCart, ArrowLeft, Star } from "lucide-react";
@@ -16,14 +16,16 @@ interface ProductPageProps {
 export default async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
 
-  // Combine all products and find the one matching the ID
-  const allProducts = [...featuredProducts, ...products];
-  const product = allProducts.find((p) => p.id === parseInt(id));
+  // Fetch the product from Supabase
+  const product = await getProductById(parseInt(id));
 
   // If product not found, show 404
   if (!product) {
     notFound();
   }
+
+  // Fetch all products for related products section
+  const allProducts = await getProducts();
 
   return (
     <main className="min-h-screen flex flex-col">
