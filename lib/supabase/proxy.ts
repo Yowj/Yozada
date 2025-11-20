@@ -41,7 +41,8 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (request.nextUrl.pathname === "/auth/login" || request.nextUrl.pathname ==="/auth/sign-up" && user) {
+  const authPaths = ["/auth/login", "/auth/sign-up"];
+  if (authPaths.includes(request.nextUrl.pathname) && user) {
     const url = request.nextUrl.clone();
     url.pathname = "/";
     return NextResponse.redirect(url);
