@@ -34,7 +34,6 @@ export function AddProductButton() {
       price: formData.get("price") as string,
       image: formData.get("image") as string,
       featured: formData.get("featured") === "on",
-      badge: formData.get("badge") as string || undefined,
     }
 
     const result = await addProduct(productData)
@@ -62,7 +61,7 @@ export function AddProductButton() {
           <DialogHeader>
             <DialogTitle>Add New Product</DialogTitle>
             <DialogDescription>
-              Enter the details for the new product. Click save when you're done.
+              Enter the details for the new product. Click save when you&apos;re done.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">

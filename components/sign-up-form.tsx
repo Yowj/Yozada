@@ -42,14 +42,13 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
         const { error: insertError } = await supabase.from("users").insert({
           id: data.user.id,
         });
-
         if (insertError) throw insertError;
+        router.push("/");
       }
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
       setIsLoading(false);
-      router.push("/");
     }
   };
 

@@ -8,8 +8,14 @@ export async function isAdmin() {
     return false
   }
 
-  // Check if user has admin role in user_metadata
-  return user.user_metadata?.role === 'admin'
+  // Query users table instead
+  const { data } = await supabase
+    .from('users')
+    .select('is_admin')
+    .eq('id', user.id)
+    .single()
+
+  return data?.is_admin ?? false
 }
 
 export async function requireAdmin() {
@@ -26,7 +32,18 @@ export async function getAdminUser() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  if (!user || user.user_metadata?.role !== 'admin') {
+  if (!user) {
+    return null
+  }
+
+  // Check admin status in users table
+  const { data: userData } = await supabase
+    .from('users')
+    .select('is_admin')
+    .eq('id', user.id)
+    .single()
+
+  if (!userData?.is_admin) {
     return null
   }
 

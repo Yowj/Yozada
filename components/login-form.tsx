@@ -31,13 +31,15 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
     setError(null);
 
     try {
-      setIsLoading(true);
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
-      if (error) setError(error.message);
-      router.push("/");
+      if (error) {
+        setError(error.message);
+      } else {
+        router.push("/");
+      }
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
@@ -56,7 +58,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                 <p className="text-muted-foreground text-balance">Login to your Acme Inc account</p>
                 <div className="text-red-600">{error}</div>
               </div>
-           
+
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
