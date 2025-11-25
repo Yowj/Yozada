@@ -2,6 +2,7 @@ import { getProducts } from '@/lib/products'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { AddProductButton } from '@/components/add-product-button'
+import { AddBadgesButton } from '@/components/add-badges-button'
 import Image from 'next/image'
 
 export default async function AdminProductsPage() {
@@ -16,7 +17,10 @@ export default async function AdminProductsPage() {
             Manage your product catalog
           </p>
         </div>
-        <AddProductButton />
+        <div className="flex gap-3">
+          <AddBadgesButton />
+          <AddProductButton />
+        </div>
       </div>
 
       {/* Products Table/Grid */}

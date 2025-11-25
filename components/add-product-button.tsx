@@ -33,6 +33,7 @@ export function AddProductButton() {
       name: formData.get("name") as string,
       price: formData.get("price") as string,
       image: formData.get("image") as string,
+      badge: formData.get("badge") as string,
       featured: formData.get("featured") === "on",
     }
 

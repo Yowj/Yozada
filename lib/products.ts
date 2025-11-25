@@ -5,6 +5,8 @@ export interface Product {
   name: string;
   price: string;
   image: string;
+  badge?: string;
+  featured?: boolean;
 }
 
 export async function getProducts() {

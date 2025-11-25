@@ -2,6 +2,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import Image from "next/image";
 import { MarqueeDemo } from "@/components/marquee-demo";
@@ -49,6 +50,11 @@ export default async function Home() {
                     className="object-cover"
                     priority
                   />
+                  {featuredProducts[0].badge && (
+                    <Badge className="absolute right-4 top-4 bg-primary text-primary-foreground">
+                      {featuredProducts[0].badge}
+                    </Badge>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                     <h3 className="text-2xl font-bold md:text-3xl">{featuredProducts[0].name}</h3>
@@ -68,6 +74,11 @@ export default async function Home() {
                 <Card className="h-full border-0 transition-transform duration-300 group-hover:scale-[1.02]">
                   <div className="relative h-[200px] md:h-[196px]">
                     <Image src={product.image} alt={product.name} fill className="object-cover" />
+                    {product.badge && (
+                      <Badge className="absolute right-3 top-3 bg-primary text-primary-foreground">
+                        {product.badge}
+                      </Badge>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
                       <h3 className="text-lg font-bold">{product.name}</h3>
@@ -102,6 +113,11 @@ export default async function Home() {
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-110"
                     />
+                    {product.badge && (
+                      <Badge className="absolute right-2 top-2 bg-primary text-primary-foreground">
+                        {product.badge}
+                      </Badge>
+                    )}
                   </div>
                   <div className="p-4">
                     <h3 className="mb-1 line-clamp-2 text-sm font-semibold md:text-base">
