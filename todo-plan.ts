@@ -67,6 +67,7 @@ export const todoPlan = {
       file: "supabase/migrations/003_create_cart_items_table.sql",
       details:
         "SQL: CREATE TABLE cart_items (id serial PRIMARY KEY, user_id uuid REFERENCES auth.users, product_id integer REFERENCES products, quantity integer DEFAULT 1, created_at timestamp DEFAULT now())",
+        //DONE
     },
     {
       id: "CART-002",
@@ -75,6 +76,8 @@ export const todoPlan = {
       file: "lib/types.ts",
       details:
         "Define CartItem type with id, user_id, product_id, quantity, product (joined Product data)",
+
+        //DONE
     },
     {
       id: "CART-003",

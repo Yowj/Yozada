@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import Image from "next/image";
 import { ThemeSwitcher } from "./theme-switcher";
 import { AuthNav } from "./auth-nav";
+import { CartSidebarClient } from "./cart-sidebar-client";
 import { categories } from "@/constants/categories";
 
 export function Navbar() {
@@ -107,16 +108,7 @@ export function Navbar() {
         {/* Cart (Right) - Both Mobile and Desktop */}
         <div className="flex items-center gap-2 md:gap-4 ml-auto">
           <ThemeSwitcher />
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="/cart" className="relative">
-              <ShoppingCart className="h-5 w-5" />
-              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-                0
-              </span>
-              <span className="sr-only">Shopping cart</span>
-            </Link>
-          </Button>
-
+          <CartSidebarClient />
           <AuthNav />
         </div>
       </div>

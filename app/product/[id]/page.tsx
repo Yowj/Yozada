@@ -6,8 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { getProductById, getProducts } from "@/lib/products";
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingCart, ArrowLeft, Star } from "lucide-react";
+import { ArrowLeft, Star } from "lucide-react";
 import { notFound } from "next/navigation";
+import { AddToCartButton } from "./add-to-cart-button";
 
 interface ProductPageProps {
   params: Promise<{ id: string }>;
@@ -20,7 +21,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!product) {
     notFound();
   }
-
 
   const allProducts = await getProducts();
 
@@ -75,7 +75,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </div>
               </div>
 
-              <div className="text-3xl font-bold text-primary">{product.price}</div>
+              <div className="text-3xl font-bold text-primary">${product.price}</div>
 
               <div className="space-y-4">
                 <div>
@@ -99,10 +99,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </div>
 
               <div className="mt-auto space-y-3">
-                <Button size="lg" className="w-full">
-                  <ShoppingCart className="mr-2 h-5 w-5" />
-                  Add to Cart
-                </Button>
+                <AddToCartButton productId={product.id} productName={product.name} />
                 <Button size="lg" variant="outline" className="w-full">
                   Buy Now
                 </Button>
@@ -148,7 +145,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                         <h3 className="mb-1 line-clamp-2 text-sm font-semibold md:text-base">
                           {relatedProduct.name}
                         </h3>
-                        <p className="font-bold text-primary">{relatedProduct.price}</p>
+                        <p className="font-bold text-primary">${relatedProduct.price}</p>
                       </div>
                     </Card>
                   </Link>
