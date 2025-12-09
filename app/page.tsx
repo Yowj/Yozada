@@ -6,6 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import Image from "next/image";
 import { MarqueeDemo } from "@/components/marquee-demo";
+import { HeroCarousel } from "@/components/hero-carousel";
+import { CategoriesSection } from "@/components/categories-section";
+import { PromotionalBanners } from "@/components/promotional-banners";
 import { getFeaturedProducts, getProducts } from "@/lib/products";
 
 export default async function Home() {
@@ -32,9 +35,25 @@ export default async function Home() {
     <main className="min-h-screen flex flex-col">
       <Navbar />
 
-      {/* Hero Section with Featured Products Grid */}
-      <section className="w-full px-4 py-8 md:py-12">
+      {/* Hero Carousel Section */}
+      <section className="w-full px-0 md:px-4 py-0 md:py-8">
         <div className="mx-auto max-w-7xl">
+          <HeroCarousel />
+        </div>
+      </section>
+
+      {/* Categories Section */}
+      <CategoriesSection />
+
+      {/* Featured Products Grid */}
+      <section className="w-full px-4 py-12 md:py-16 bg-muted/20">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold tracking-tight">Featured Products</h2>
+            <p className="mt-2 text-muted-foreground">
+              Hand-picked items just for you
+            </p>
+          </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-4 md:grid-rows-2">
             {/* Large Featured Product - Spans 2 columns and 2 rows on desktop */}
             <Link
@@ -92,18 +111,26 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Product Showcase Section */}
+      {/* Promotional Banners */}
+      <PromotionalBanners />
+
+      {/* Best Sellers / All Products Section */}
       <section className="w-full bg-muted/30 px-4 py-12 md:py-16">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 flex items-center justify-between">
-            <h2 className="text-3xl font-bold tracking-tight">Shop Our Collection</h2>
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight">Best Sellers</h2>
+              <p className="mt-2 text-muted-foreground">
+                Most popular products in our store
+              </p>
+            </div>
             <Button variant="outline" asChild>
               <Link href="/products">View All</Link>
             </Button>
           </div>
 
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:gap-6">
-            {products.map((product) => (
+            {products.slice(0, 8).map((product) => (
               <Link key={product.id} href={`/product/${product.id}`} className="group">
                 <Card className="overflow-hidden border-0 transition-all duration-300 hover:shadow-lg">
                   <div className="relative aspect-square overflow-hidden">
@@ -132,25 +159,31 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Customer Reviews / Social Proof */}
       <section className="w-full px-4 py-16 md:py-24">
+        <div className="mx-auto max-w-7xl mb-8">
+          <h2 className="text-3xl font-bold tracking-tight text-center mb-4">What Our Customers Say</h2>
+          <p className="text-center text-muted-foreground mb-8">
+            Trusted by thousands of happy customers worldwide
+          </p>
+        </div>
         <MarqueeDemo />
       </section>
 
       {/* Call to Action Section */}
-      <section className="w-full px-4 py-16 md:py-24">
+      <section className="w-full bg-gradient-to-r from-primary to-primary/80 px-4 py-16 md:py-24">
         <div className="mx-auto max-w-4xl text-center">
-          <h2 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-            Discover Quality Products
+          <h2 className="mb-4 text-4xl font-bold tracking-tight text-white md:text-5xl">
+            Ready to Start Shopping?
           </h2>
-          <p className="mb-8 text-lg text-muted-foreground md:text-xl">
-            Explore our curated collection of premium products designed for modern living. Free
-            shipping on orders over $50.
+          <p className="mb-8 text-lg text-white/90 md:text-xl">
+            Discover our curated collection of premium products. Free shipping on orders over $50.
           </p>
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-            <Button size="lg" asChild>
+            <Button size="lg" variant="secondary" asChild>
               <Link href="/products">Shop Now</Link>
             </Button>
-            <Button size="lg" variant="outline" asChild>
+            <Button size="lg" variant="outline" className="bg-transparent text-white border-white hover:bg-white hover:text-primary" asChild>
               <Link href="/about">Learn More</Link>
             </Button>
           </div>
