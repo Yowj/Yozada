@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Menu, Search, ShoppingCart } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -11,58 +11,81 @@ import { ThemeSwitcher } from "./theme-switcher";
 import { AuthNav } from "./auth-nav";
 import { CartSidebarClient } from "./cart-sidebar-client";
 import { categories } from "@/constants/categories";
+import { checkIsAdmin } from "@/lib/auth/admin-client";
+import { createClient } from "@/lib/supabase/client";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
+  const [isAdmin, setIsAdmin] = React.useState(false);
 
   React.useEffect(() => {
     setMounted(true);
-  }, []);
 
+    // Check admin status on mount
+    const checkAdmin = async () => {
+      const admin = await checkIsAdmin();
+      setIsAdmin(admin);
+    };
+
+    checkAdmin();
+
+    // Subscribe to auth state changes to update admin status
+    const supabase = createClient();
+    const { data: authListener } = supabase.auth.onAuthStateChange(() => {
+      checkAdmin();
+    });
+
+    return () => {
+      authListener?.subscription.unsubscribe();
+    };
+  }, []);
+  
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
       <div className="mx-auto flex h-16 items-center justify-between px-4">
         {/* Mobile - Menu Button (Left) */}
         <div className="md:hidden">
-          {mounted && <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-[300px] sm:w-[400px]">
-              <SheetHeader>
-                <SheetTitle>Menu</SheetTitle>
-              </SheetHeader>
-              <div className="mt-6 flex flex-col gap-4">
-                <div className="flex flex-col gap-2">
-                  <h3 className="mb-2 text-sm font-semibold text-muted-foreground">Categories</h3>
-                  {categories.map((category) => (
-                    <Link
-                      key={category.name}
-                      href={category.href}
-                      onClick={() => setIsOpen(false)}
-                      className="rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
-                    >
-                      {category.name}
-                    </Link>
-                  ))}
-                </div>
-                <div className="mt-4 border-t pt-4">
-                  <div className="relative w-full">
-                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                      type="search"
-                      placeholder="Search products..."
-                      className="w-full pl-10"
-                    />
+          {mounted && (
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+                <SheetHeader>
+                  <SheetTitle>Menu</SheetTitle>
+                </SheetHeader>
+                <div className="mt-6 flex flex-col gap-4">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="mb-2 text-sm font-semibold text-muted-foreground">Categories</h3>
+                    {categories.map((category) => (
+                      <Link
+                        key={category.name}
+                        href={category.href}
+                        onClick={() => setIsOpen(false)}
+                        className="rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+                      >
+                        {category.name}
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="mt-4 border-t pt-4">
+                    <div className="relative w-full">
+                      <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <Input
+                        type="search"
+                        placeholder="Search products..."
+                        className="w-full pl-10"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </SheetContent>
-          </Sheet>}
+              </SheetContent>
+            </Sheet>
+          )}
         </div>
 
         {/* Desktop - Logo and Categories (Left) */}
@@ -107,6 +130,13 @@ export function Navbar() {
 
         {/* Cart (Right) - Both Mobile and Desktop */}
         <div className="flex items-center gap-2 md:gap-4 ml-auto">
+          {isAdmin && (
+            <Link href="/admin">
+              <Button variant="ghost" size="sm">
+                Admin Dashboard
+              </Button>
+            </Link>
+          )}
           <ThemeSwitcher />
           <CartSidebarClient />
           <AuthNav />

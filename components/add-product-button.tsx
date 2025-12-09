@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Plus } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -11,42 +11,35 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { addProduct } from "@/lib/actions/products"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { addProduct } from "@/lib/actions/products";
 
 export function AddProductButton() {
-  const [open, setOpen] = React.useState(false)
-  const [isSubmitting, setIsSubmitting] = React.useState(false)
-  const [error, setError] = React.useState<string | null>(null)
+  const [open, setOpen] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    setIsSubmitting(true)
-    setError(null)
+    event.preventDefault();
+    const form = event.currentTarget;
+    setIsSubmitting(true);
+    setError(null);
 
-    const formData = new FormData(event.currentTarget)
+    const formData = new FormData(form);
 
-    const productData = {
-      name: formData.get("name") as string,
-      price: formData.get("price") as string,
-      image: formData.get("image") as string,
-      badge: formData.get("badge") as string,
-      featured: formData.get("featured") === "on",
-    }
-
-    const result = await addProduct(productData)
+    const result = await addProduct(formData);
 
     if (result.success) {
-      setOpen(false)
-      event.currentTarget.reset()
+      setOpen(false);
+      form.reset();
     } else {
-      setError(result.error || "Failed to add product")
+      setError(result.error || "Failed to add product");
     }
 
-    setIsSubmitting(false)
+    setIsSubmitting(false);
   }
 
   return (
@@ -68,39 +61,37 @@ export function AddProductButton() {
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Label htmlFor="name">Product Name</Label>
+              <Input id="name" name="name" placeholder="Enter product name" required />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="description">Product Description</Label>
               <Input
-                id="name"
-                name="name"
-                placeholder="Enter product name"
+                id="description"
+                name="description"
+                placeholder="Enter product description"
                 required
               />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="price">Price</Label>
-              <Input
-                id="price"
-                name="price"
-                placeholder="$99.99"
-                required
-              />
+              <Input id="price" name="price" placeholder="$99.99" required />
             </div>
             <div className="grid gap-2">
+              <Label htmlFor="stock">Stock</Label>
+              <Input id="stock" name="stock" required />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="category">Category</Label>
+              <Input id="category" name="category" required />
+            </div>
+
+            <div className="grid gap-2">
               <Label htmlFor="image">Image URL</Label>
-              <Input
-                id="image"
-                name="image"
-                type="url"
-                placeholder="https://example.com/image.jpg"
-                required
-              />
+              <Input id="image" name="image" type="file" required />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="badge">Badge (optional)</Label>
-              <Input
-                id="badge"
-                name="badge"
-                placeholder="New, Sale, Popular, etc."
-              />
+              <Input id="badge" name="badge" placeholder="New, Sale, Popular, etc." />
             </div>
             <div className="flex items-center space-x-2">
               <Checkbox id="featured" name="featured" />
@@ -130,5 +121,5 @@ export function AddProductButton() {
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

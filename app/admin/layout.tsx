@@ -1,25 +1,21 @@
-import { redirect } from 'next/navigation'
-import { isAdmin } from '@/lib/auth/admin'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Home, Package } from 'lucide-react'
+import { redirect } from "next/navigation";
+import { isAdmin } from "@/lib/auth/admin";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Home, Package } from "lucide-react";
 
-export default async function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const admin = await isAdmin()
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const admin = await isAdmin();
 
   if (!admin) {
-    redirect('/auth/login')
+    redirect("/auth/login");
   }
 
   return (
     <div className="min-h-screen bg-background">
       {/* Admin Header */}
       <header className="border-b bg-card">
-        <div className="container flex h-16 items-center gap-4 px-4">
+        <div className="justify-between flex h-16 items-center gap-4 px-4 ">
           <Link href="/" className="flex items-center gap-2 font-semibold">
             <Home className="size-5" />
             Back to Site
@@ -40,9 +36,7 @@ export default async function AdminLayout({
       </header>
 
       {/* Admin Content */}
-      <main className="container py-8 px-4">
-        {children}
-      </main>
+      <main className=" py-8 px-4">{children}</main>
     </div>
-  )
+  );
 }

@@ -23,7 +23,7 @@ export function AddToCartButton({ productId }: AddToCartButtonProps) {
 
       if (result.success) {
         toast.success(result.message || 'Added to cart!')
-        await refreshCart() // Refresh cart to show new item
+        await refreshCart()
       } else {
         toast.error(result.error || 'Failed to add to cart')
       }
