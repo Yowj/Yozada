@@ -11,34 +11,13 @@ import { ThemeSwitcher } from "./theme-switcher";
 import { AuthNav } from "./auth-nav";
 import { CartSidebarClient } from "./cart-sidebar-client";
 import { categories } from "@/constants/categories";
-import { checkIsAdmin } from "@/lib/auth/admin-client";
-import { createClient } from "@/lib/supabase/client";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
-  const [isAdmin, setIsAdmin] = React.useState(false);
 
   React.useEffect(() => {
     setMounted(true);
-
-    // Check admin status on mount
-    const checkAdmin = async () => {
-      const admin = await checkIsAdmin();
-      setIsAdmin(admin);
-    };
-
-    checkAdmin();
-
-    // Subscribe to auth state changes to update admin status
-    const supabase = createClient();
-    const { data: authListener } = supabase.auth.onAuthStateChange(() => {
-      checkAdmin();
-    });
-
-    return () => {
-      authListener?.subscription.unsubscribe();
-    };
   }, []);
   
   return (
@@ -130,13 +109,6 @@ export function Navbar() {
 
         {/* Cart (Right) - Both Mobile and Desktop */}
         <div className="flex items-center gap-2 md:gap-4 ml-auto">
-          {isAdmin && (
-            <Link href="/admin">
-              <Button variant="ghost" size="sm">
-                Admin Dashboard
-              </Button>
-            </Link>
-          )}
           <ThemeSwitcher />
           <CartSidebarClient />
           <AuthNav />

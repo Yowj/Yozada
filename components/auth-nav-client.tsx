@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import {
@@ -12,59 +11,22 @@ import {
 } from "./ui/dropdown-menu";
 import { User, LogOut, ShieldCheck } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import type { User as SupabaseUser } from "@supabase/supabase-js";
 
-export function AuthNav() {
-  const [user, setUser] = useState<{ email: string; isAdmin: boolean } | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+interface AuthNavClientProps {
+  user: {
+    email: string;
+    isAdmin: boolean;
+  } | null;
+}
 
-  useEffect(() => {
-    const supabase = createClient();
-
-    // Check initial session (faster than getUser, uses local cache)
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (session?.user) {
-        const isAdmin = await checkUserIsAdmin(supabase, session.user);
-        setUser({
-          email: session.user.email || "",
-          isAdmin,
-        });
-      } else {
-        setUser(null);
-      }
-      setIsLoading(false);
-    });
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      if (session?.user) {
-        const isAdmin = await checkUserIsAdmin(supabase, session.user);
-        setUser({
-          email: session.user.email || "",
-          isAdmin,
-        });
-      } else {
-        setUser(null);
-      }
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
-
-  if (isLoading) {
-    return <div className="h-10 w-20 animate-pulse rounded-md bg-muted" />;
-  }
-
+export function AuthNavClient({ user }: AuthNavClientProps) {
   if (user) {
     return (
       <>
         {user.isAdmin && (
           <Link href="/admin/dashboard">
             <Button variant="ghost" className="flex items-center gap-2 h-10 px-2 sm:px-4">
-              {" "}
-              Admin Dashboard{" "}
+              Admin Dashboard
             </Button>
           </Link>
         )}
@@ -97,7 +59,7 @@ export function AuthNav() {
               onSelect={async () => {
                 const supabase = createClient();
                 await supabase.auth.signOut();
-                window.location.href = '/';
+                window.location.reload(); // Refresh to update server state
               }}
               className="flex items-center gap-2 text-destructive focus:text-destructive"
             >
@@ -120,25 +82,4 @@ export function AuthNav() {
       </Button>
     </div>
   );
-}
-
-// Helper function to check admin status
-async function checkUserIsAdmin(supabase: ReturnType<typeof createClient>, user: SupabaseUser): Promise<boolean> {
-  try {
-    const { data, error } = await supabase
-      .from('users')
-      .select('is_admin')
-      .eq('id', user.id)
-      .single();
-
-    if (error) {
-      console.error('Error checking admin status:', error);
-      return false;
-    }
-
-    return data?.is_admin ?? false;
-  } catch (error) {
-    console.error('Error checking admin status:', error);
-    return false;
-  }
 }
