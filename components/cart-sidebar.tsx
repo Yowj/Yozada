@@ -8,23 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
-import { CartItemWithProduct } from "@/lib/types";
 import { removeFromCart, updateCartItemQuantity } from "@/lib/actions/cart";
 import { useCart } from "@/lib/contexts/cart-context";
 
-interface CartSidebarProps {
-  cartItems: CartItemWithProduct[];
-}
-
-export function CartSidebar({ cartItems: initialItems }: CartSidebarProps) {
+export function CartSidebar() {
   const [open, setOpen] = React.useState(false);
-  const [cartItems, setCartItems] = React.useState(initialItems);
   const [isLoading, setIsLoading] = React.useState<number | null>(null);
-  const { refreshCart, updateItemOptimistically, removeItemOptimistically } = useCart();
-
-  React.useEffect(() => {
-    setCartItems(initialItems);
-  }, [initialItems]);
+  const { cartItems, refreshCart, updateItemOptimistically, removeItemOptimistically } = useCart();
 
   async function handleUpdateQuantity(cartItemId: number, newQuantity: number) {
     setIsLoading(cartItemId);

@@ -9,7 +9,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import Image from "next/image";
 import { ThemeSwitcher } from "./theme-switcher";
 import { AuthNav } from "./auth-nav";
-import { CartSidebarClient } from "./cart-sidebar-client";
+import { CartSidebar } from "./cart-sidebar";
 import { categories } from "@/constants/categories";
 import { checkIsAdmin } from "@/lib/auth/admin-client";
 import { createClient } from "@/lib/supabase/client";
@@ -30,7 +30,6 @@ export function Navbar() {
 
     checkAdmin();
 
-    // Subscribe to auth state changes to update admin status
     const supabase = createClient();
     const { data: authListener } = supabase.auth.onAuthStateChange(() => {
       checkAdmin();
@@ -138,7 +137,7 @@ export function Navbar() {
             </Link>
           )}
           <ThemeSwitcher />
-          <CartSidebarClient />
+          <CartSidebar />
           <AuthNav />
         </div>
       </div>

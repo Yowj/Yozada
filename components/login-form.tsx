@@ -5,7 +5,6 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   Field,
@@ -22,7 +21,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +37,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
       if (error) {
         setError(error.message);
       } else {
-        router.push("/");
+        window.location.href = "/";
       }
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");

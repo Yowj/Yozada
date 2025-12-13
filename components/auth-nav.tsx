@@ -10,12 +10,11 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "./ui/dropdown-menu";
-import { User, LogOut, ShieldCheck } from "lucide-react";
+import { User, LogOut } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import { checkIsAdmin } from "@/lib/auth/admin-client";
 
 export function AuthNav() {
-  const [user, setUser] = useState<{ email: string; isAdmin: boolean } | null>(null);
+  const [user, setUser] = useState<{ email: string } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -25,10 +24,8 @@ export function AuthNav() {
       try {
         const { data } = await supabase.auth.getUser();
         if (data?.user) {
-          const isAdmin = await checkIsAdmin();
           setUser({
             email: data.user.email || "",
-            isAdmin,
           });
         } else {
           setUser(null);
@@ -45,10 +42,8 @@ export function AuthNav() {
 
     const { data: authListener } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session?.user) {
-        const isAdmin = await checkIsAdmin();
         setUser({
           email: session.user.email || "",
-          isAdmin,
         });
       } else {
         setUser(null);
@@ -67,14 +62,6 @@ export function AuthNav() {
   if (user) {
     return (
       <>
-        {user.isAdmin && (
-          <Link href="/admin/dashboard">
-            <Button variant="ghost" className="flex items-center gap-2 h-10 px-2 sm:px-4">
-              {" "}
-              Admin Dashboard{" "}
-            </Button>
-          </Link>
-        )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="flex items-center gap-2 h-10 px-2 sm:px-4">
@@ -91,19 +78,12 @@ export function AuthNav() {
             <DropdownMenuItem asChild>
               <Link href="/protected">Profile</Link>
             </DropdownMenuItem>
-            {user.isAdmin && (
-              <DropdownMenuItem asChild>
-                <Link href="/admin" className="flex items-center gap-2">
-                  <ShieldCheck className="h-4 w-4" />
-                  Admin Dashboard
-                </Link>
-              </DropdownMenuItem>
-            )}
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onSelect={async () => {
                 const supabase = createClient();
                 await supabase.auth.signOut();
+                window.location.reload();
               }}
               className="flex items-center gap-2 text-destructive focus:text-destructive"
             >
