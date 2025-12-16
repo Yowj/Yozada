@@ -3,7 +3,6 @@ import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getFeaturedProducts, getProducts } from "@/lib/products";
-import { AnnouncementBar } from "@/components/announcement-bar";
 import { HeroSection } from "@/components/hero-section";
 import { BenefitsSection } from "@/components/benefits-section";
 import { CategoryShowcase } from "@/components/category-showcase";
@@ -17,31 +16,17 @@ export default async function Home() {
   const featuredProducts = await getFeaturedProducts();
   const products = await getProducts();
 
-  if (products.length === 0) {
-    return (
-      <>
-        <AnnouncementBar />
-        <main className="min-h-screen flex flex-col">
-          <Navbar />
-          <section className="w-full px-4 py-8 md:py-12">
-            <div className="mx-auto max-w-7xl">
-              <p className="text-center text-2xl font-bold">No products found.</p>
-            </div>
-          </section>
-        </main>
-        <Footer />
-      </>
-    );
-  }
-
   return (
     <>
-      <AnnouncementBar />
       <main className="min-h-screen flex flex-col">
         <Navbar />
 
         {/* Hero Section */}
-        <HeroSection featuredProduct={featuredProducts[0] || products[0]} />
+        <HeroSection
+          featuredProducts={
+            featuredProducts.length > 0 ? featuredProducts.slice(0, 5) : products.slice(0, 5)
+          }
+        />
 
         {/* Benefits Section */}
         <BenefitsSection />
@@ -50,7 +35,9 @@ export default async function Home() {
         <CategoryShowcase />
 
         {/* Featured Products Grid */}
-        <FeaturedProducts products={featuredProducts.length > 0 ? featuredProducts : products.slice(0, 3)} />
+        <FeaturedProducts
+          products={featuredProducts.length > 0 ? featuredProducts : products.slice(0, 3)}
+        />
 
         {/* All Products Section */}
         <section className="w-full bg-muted/30 px-4 py-12 md:py-16">
@@ -102,8 +89,8 @@ export default async function Home() {
               Ready to Upgrade Your Lifestyle?
             </h2>
             <p className="mb-8 text-lg text-muted-foreground md:text-xl">
-              Join thousands of happy customers who trust Yozada for quality products.
-              Start shopping today and experience the difference.
+              Join thousands of happy customers who trust Yozada for quality products. Start
+              shopping today and experience the difference.
             </p>
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
               <Button size="lg" asChild className="group">
@@ -118,7 +105,6 @@ export default async function Home() {
             </div>
           </div>
         </section>
-
         <Footer />
       </main>
     </>

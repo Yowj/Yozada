@@ -1,21 +1,31 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight } from "lucide-react";
 import { Product } from "@/lib/types";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 interface HeroSectionProps {
-  featuredProduct: Product;
+  featuredProducts: Product[];
 }
 
-export function HeroSection({ featuredProduct }: HeroSectionProps) {
+export function HeroSection({ featuredProducts }: HeroSectionProps) {
   return (
-    <section className="w-full px-4 py-8 md:py-16">
+    <section className="w-full px-4 py-2">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
+        <div className="grid gap-8 lg:grid-cols-5 lg:items-center lg:gap-12">
           {/* Text Content */}
-          <div className="order-2 flex flex-col justify-center lg:order-1">
+          <div className="order-2 flex flex-col justify-center lg:order-1 lg:col-span-2">
             <Badge variant="secondary" className="mb-4 w-fit">
               New Collection 2024
             </Badge>
@@ -55,31 +65,53 @@ export function HeroSection({ featuredProduct }: HeroSectionProps) {
             </div>
           </div>
 
-          {/* Featured Product Image */}
-          <div className="order-1 lg:order-2">
-            <Link
-              href={`/product/${featuredProduct.id}`}
-              className="group relative block overflow-hidden rounded-2xl bg-muted"
+          {/* Featured Products Carousel */}
+          <div className="order-1 lg:order-2 lg:col-span-3">
+            <Carousel
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              plugins={[
+                Autoplay({
+                  delay: 2500,
+                  stopOnInteraction: true,
+                }),
+              ]}
+              className="w-full"
             >
-              <div className="relative aspect-square md:aspect-[4/5]">
-                <Image
-                  src={featuredProduct.image}
-                  alt={featuredProduct.name}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  priority
-                />
-                {featuredProduct.badge && (
-                  <Badge className="absolute left-4 top-4 bg-primary text-primary-foreground">
-                    {featuredProduct.badge}
-                  </Badge>
-                )}
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
-                <p className="text-lg font-semibold text-white">{featuredProduct.name}</p>
-                <p className="text-white/90">${featuredProduct.price}</p>
-              </div>
-            </Link>
+              <CarouselContent>
+                {featuredProducts.map((product) => (
+                  <CarouselItem key={product.id}>
+                    <Link
+                      href={`/product/${product.id}`}
+                      className="group relative block overflow-hidden rounded-2xl bg-muted"
+                    >
+                      <div className="relative aspect-square md:aspect-[4/5]">
+                        <Image
+                          src={product.image}
+                          alt={product.name}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          priority
+                        />
+                        {product.badge && (
+                          <Badge className="absolute left-4 top-4 bg-primary text-primary-foreground">
+                            {product.badge}
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6">
+                        <p className="text-lg font-semibold text-white">{product.name}</p>
+                        <p className="text-white/90">${product.price}</p>
+                      </div>
+                    </Link>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="left-4" />
+              <CarouselNext className="right-4" />
+            </Carousel>
           </div>
         </div>
       </div>
