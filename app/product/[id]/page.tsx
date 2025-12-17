@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 import { notFound } from "next/navigation";
 import { AddToCartButton } from "./add-to-cart-button";
-import { AnnouncementBar } from "@/components/announcement-bar";
 import { ProductCard } from "@/components/product-card";
 
 interface ProductPageProps {
@@ -65,7 +64,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <>
-      <AnnouncementBar />
       <main className="min-h-screen flex flex-col">
         <Navbar />
 

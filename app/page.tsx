@@ -9,7 +9,6 @@ import { CategoryShowcase } from "@/components/category-showcase";
 import { FeaturedProducts } from "@/components/featured-products";
 import { ProductCard } from "@/components/product-card";
 import { TestimonialsSection } from "@/components/testimonials-section";
-import { NewsletterSection } from "@/components/newsletter-section";
 import { ArrowRight } from "lucide-react";
 
 export default async function Home() {
@@ -78,9 +77,6 @@ export default async function Home() {
 
         {/* Testimonials Section */}
         <TestimonialsSection />
-
-        {/* Newsletter Section */}
-        <NewsletterSection />
 
         {/* Call to Action Section */}
         <section className="w-full px-4 py-16 md:py-24">
