@@ -10,6 +10,11 @@ export interface Product {
   image: string;
   badge?: string;
   featured?: boolean;
+  description?: string;
+  category?: string;
+  stock?: number;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export async function getProducts() {

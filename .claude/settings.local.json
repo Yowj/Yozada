@@ -5,7 +5,8 @@
       "WebFetch(domain:vercel.com)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:demo.vercel.store)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []

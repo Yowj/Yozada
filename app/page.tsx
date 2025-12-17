@@ -1,163 +1,108 @@
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import Image from "next/image";
-import { MarqueeDemo } from "@/components/marquee-demo";
 import { getFeaturedProducts, getProducts } from "@/lib/products";
+import { HeroSection } from "@/components/hero-section";
+import { BenefitsSection } from "@/components/benefits-section";
+import { CategoryShowcase } from "@/components/category-showcase";
+import { FeaturedProducts } from "@/components/featured-products";
+import { ProductCard } from "@/components/product-card";
+import { TestimonialsSection } from "@/components/testimonials-section";
+import { ArrowRight } from "lucide-react";
 
 export default async function Home() {
   const featuredProducts = await getFeaturedProducts();
   const products = await getProducts();
 
-  if (products.length === 0) {
-    return (
-      <>
-        <main className=" min-h-screen flex flex-col">
-          <Navbar />
-          <section className=" w-full px-4 py-8 md:py-12">
-            <div className="mx-auto max-w-7xl">
-              <p className="text-center text-2xl font-bold">No products found.</p>
-            </div>
-          </section>
-        </main>
-        <Footer />
-      </>
-    );
-  }
-
   return (
-    <main className="min-h-screen flex flex-col">
-      <Navbar />
+    <>
+      <main className="min-h-screen flex flex-col">
+        <Navbar />
 
-      {/* Hero Section with Featured Products Grid */}
-      <section className="w-full px-4 py-8 md:py-12">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-4 md:grid-rows-2">
-            {/* Large Featured Product - Spans 2 columns and 2 rows on desktop */}
-            <Link
-              href={`/product/${featuredProducts[0].id}`}
-              className="group relative overflow-hidden rounded-xl md:col-span-2 md:row-span-2"
-            >
-              <Card className="h-full border-0 transition-transform duration-300 group-hover:scale-[1.02]">
-                <div className="relative h-[400px] md:h-full">
-                  <Image
-                    src={featuredProducts[0].image}
-                    alt={featuredProducts[0].name}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                  {featuredProducts[0].badge && (
-                    <Badge className="absolute right-4 top-4 bg-primary text-primary-foreground">
-                      {featuredProducts[0].badge}
-                    </Badge>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <h3 className="text-2xl font-bold md:text-3xl">{featuredProducts[0].name}</h3>
-                    <p className="mt-2 text-xl font-semibold">${featuredProducts[0].price}</p>
-                  </div>
-                </div>
-              </Card>
-            </Link>
+        {/* Hero Section */}
+        <HeroSection
+          featuredProducts={
+            featuredProducts.length > 0 ? featuredProducts.slice(0, 5) : products.slice(0, 5)
+          }
+        />
 
-            {/* Two Smaller Featured Products */}
-            {featuredProducts.slice(1).map((product) => (
-              <Link
-                key={product.id}
-                href={`/product/${product.id}`}
-                className="group relative overflow-hidden rounded-xl"
-              >
-                <Card className="h-full border-0 transition-transform duration-300 group-hover:scale-[1.02]">
-                  <div className="relative h-[200px] md:h-[196px]">
-                    <Image src={product.image} alt={product.name} fill className="object-cover" />
-                    {product.badge && (
-                      <Badge className="absolute right-3 top-3 bg-primary text-primary-foreground">
-                        {product.badge}
-                      </Badge>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                      <h3 className="text-lg font-bold">{product.name}</h3>
-                      <p className="mt-1 text-sm font-semibold">${product.price}</p>
-                    </div>
-                  </div>
-                </Card>
-              </Link>
-            ))}
+        {/* Benefits Section */}
+        <BenefitsSection />
+
+        {/* Category Showcase */}
+        <CategoryShowcase />
+
+        {/* Featured Products Grid */}
+        <FeaturedProducts
+          products={featuredProducts.length > 0 ? featuredProducts : products.slice(0, 3)}
+        />
+
+        {/* All Products Section */}
+        <section className="w-full bg-muted/30 px-4 py-12 md:py-16">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-8 flex items-center justify-between">
+              <div>
+                <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+                  Shop Our Collection
+                </h2>
+                <p className="mt-2 text-muted-foreground">
+                  Discover quality products for every need
+                </p>
+              </div>
+              <Button variant="outline" asChild className="hidden sm:flex">
+                <Link href="/products">
+                  View All
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-6">
+              {products.slice(0, 8).map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+
+            <div className="mt-8 flex justify-center sm:hidden">
+              <Button variant="outline" asChild>
+                <Link href="/products">
+                  View All Products
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Product Showcase Section */}
-      <section className="w-full bg-muted/30 px-4 py-12 md:py-16">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-8 flex items-center justify-between">
-            <h2 className="text-3xl font-bold tracking-tight">Shop Our Collection</h2>
-            <Button variant="outline" asChild>
-              <Link href="/products">View All</Link>
-            </Button>
+        {/* Testimonials Section */}
+        <TestimonialsSection />
+
+        {/* Call to Action Section */}
+        <section className="w-full px-4 py-16 md:py-24">
+          <div className="mx-auto max-w-4xl text-center">
+            <h2 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
+              Ready to Upgrade Your Lifestyle?
+            </h2>
+            <p className="mb-8 text-lg text-muted-foreground md:text-xl">
+              Join thousands of happy customers who trust Yozada for quality products. Start
+              shopping today and experience the difference.
+            </p>
+            <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+              <Button size="lg" asChild className="group">
+                <Link href="/products">
+                  Start Shopping
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link href="/about">About Us</Link>
+              </Button>
+            </div>
           </div>
-
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:gap-6">
-            {products.map((product) => (
-              <Link key={product.id} href={`/product/${product.id}`} className="group">
-                <Card className="overflow-hidden border-0 transition-all duration-300 hover:shadow-lg">
-                  <div className="relative aspect-square overflow-hidden">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-110"
-                    />
-                    {product.badge && (
-                      <Badge className="absolute right-2 top-2 bg-primary text-primary-foreground">
-                        {product.badge}
-                      </Badge>
-                    )}
-                  </div>
-                  <div className="p-4">
-                    <h3 className="mb-1 line-clamp-2 text-sm font-semibold md:text-base">
-                      {product.name}
-                    </h3>
-                    <p className="font-bold text-primary">${product.price}</p>
-                  </div>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="w-full px-4 py-16 md:py-24">
-        <MarqueeDemo />
-      </section>
-
-      {/* Call to Action Section */}
-      <section className="w-full px-4 py-16 md:py-24">
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-            Discover Quality Products
-          </h2>
-          <p className="mb-8 text-lg text-muted-foreground md:text-xl">
-            Explore our curated collection of premium products designed for modern living. Free
-            shipping on orders over $50.
-          </p>
-          <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-            <Button size="lg" asChild>
-              <Link href="/products">Shop Now</Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link href="/about">Learn More</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      <Footer />
-    </main>
+        </section>
+        <Footer />
+      </main>
+    </>
   );
 }
