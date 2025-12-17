@@ -17,12 +17,18 @@ export async function addToCart(productId: number, quantity: number = 1) {
   }
 
   // First, try to get existing cart item
-  const { data: existingItem } = await supabase
+  const { data: existingItem, error: fetchError } = await supabase
     .from('cart_items')
     .select('*')
     .eq('user_id', user.id)
     .eq('product_id', productId)
-    .single()
+    .maybeSingle()
+
+  // Handle errors (but not "no rows" which is expected)
+  if (fetchError) {
+    console.error('Error fetching cart item:', fetchError)
+    return { success: false, error: fetchError.message }
+  }
 
   if (existingItem) {
     // Item already exists, update quantity
@@ -174,9 +180,10 @@ export async function getCartItemByProduct(productId: number) {
     .select('*')
     .eq('user_id', user.id)
     .eq('product_id', productId)
-    .single()
+    .maybeSingle()
 
   if (error) {
+    console.error('Error fetching cart item by product:', error)
     return null
   }
 

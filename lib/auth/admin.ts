@@ -9,11 +9,16 @@ export async function isAdmin() {
   }
 
   // Query users table instead
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('users')
     .select('is_admin')
     .eq('id', user.id)
-    .single()
+    .maybeSingle()
+
+  if (error) {
+    console.error('Error checking admin status:', error)
+    return false
+  }
 
   return data?.is_admin ?? false
 }
@@ -37,11 +42,16 @@ export async function getAdminUser() {
   }
 
   // Check admin status in users table
-  const { data: userData } = await supabase
+  const { data: userData, error } = await supabase
     .from('users')
     .select('is_admin')
     .eq('id', user.id)
-    .single()
+    .maybeSingle()
+
+  if (error) {
+    console.error('Error fetching admin user:', error)
+    return null
+  }
 
   if (!userData?.is_admin) {
     return null

@@ -2,6 +2,7 @@ import { Star, Quote } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Marquee } from "./ui/marquee";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 const testimonials = [
   {
@@ -79,9 +80,11 @@ function TestimonialCard({
     >
       <Quote className="absolute right-4 top-4 h-8 w-8 text-muted-foreground/20" />
       <div className="mb-4 flex items-center gap-3">
-        <img
+        <Image
           src={avatar}
           alt={name}
+          width={48}
+          height={48}
           className="h-12 w-12 rounded-full bg-muted"
         />
         <div>
