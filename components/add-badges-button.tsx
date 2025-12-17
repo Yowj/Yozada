@@ -17,10 +17,8 @@ export function AddBadgesButton() {
 
     if (result.success) {
       setMessage({ type: 'success', text: result.message || 'Badges added successfully!' })
-      // Refresh the page after a short delay
-      setTimeout(() => {
-        window.location.reload()
-      }, 1500)
+      // No need for window.location.reload()!
+      // revalidatePath() in server action already refreshed the data
     } else {
       setMessage({ type: 'error', text: result.error || 'Failed to add badges' })
     }

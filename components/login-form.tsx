@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -15,6 +14,7 @@ import {
 } from "@/components/ui/field";
 import Image from "next/image";
 import { LoaderCircle } from "lucide-react";
+import { loginUser } from "@/lib/actions/auth";
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
   const [email, setEmail] = useState("");
@@ -25,23 +25,22 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const supabase = createClient();
     setIsLoading(true);
     setError(null);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (error) {
-        setError(error.message);
-      } else {
-        window.location.href = "/";
+      // Call server action - it handles revalidatePath and redirect automatically
+      const result = await loginUser(email, password);
+
+      // Only handle errors - success case redirects automatically
+      if (result?.error) {
+        setError(result.error);
+        setIsLoading(false);
       }
+      // If successful, redirect() in server action will navigate
+      // No need for window.location.href!
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
-    } finally {
       setIsLoading(false);
     }
   };

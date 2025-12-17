@@ -12,6 +12,7 @@ import {
 } from "./ui/dropdown-menu";
 import { User, LogOut } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { logoutUser } from "@/lib/actions/auth";
 
 export function AuthNav() {
   const [user, setUser] = useState<{ email: string } | null>(null);
@@ -81,9 +82,9 @@ export function AuthNav() {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onSelect={async () => {
-                const supabase = createClient();
-                await supabase.auth.signOut();
-                window.location.reload();
+                // Call server action - it handles signOut, revalidatePath, and redirect automatically
+                await logoutUser();
+                // No need for window.location.reload()!
               }}
               className="flex items-center gap-2 text-destructive focus:text-destructive"
             >
