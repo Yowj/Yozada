@@ -196,7 +196,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
                 {/* Action Buttons */}
                 <div className="mb-8 flex flex-col gap-3 sm:flex-row">
-                  <AddToCartButton productId={product.id} productName={product.name} />
+                  <AddToCartButton productId={product.id} />
                   <Button size="lg" variant="outline" className="flex-1 sm:flex-initial">
                     <Heart className="mr-2 h-5 w-5" />
                     Wishlist
