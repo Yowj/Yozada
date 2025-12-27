@@ -40,5 +40,5 @@ export async function logoutUser() {
   revalidatePath('/', 'layout')
 
   // Server-side redirect to home
-  redirect('/')
+  redirect('/auth/login')
 }

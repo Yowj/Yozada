@@ -82,9 +82,7 @@ export function AuthNav() {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onSelect={async () => {
-                // Call server action - it handles signOut, revalidatePath, and redirect automatically
                 await logoutUser();
-                // No need for window.location.reload()!
               }}
               className="flex items-center gap-2 text-destructive focus:text-destructive"
             >
