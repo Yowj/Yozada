@@ -79,7 +79,7 @@ export default function Error({
           </Button>
 
           <Button
-            onClick={() => router.redirect("/")}
+            onClick={() => router.push("/")}
             variant="outline"
             size="lg"
             className="w-full sm:w-auto"
