@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { isAdmin } from "@/lib/auth/admin";
+import { isAdmin } from "@/lib/auth/server";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Home, Package } from "lucide-react";

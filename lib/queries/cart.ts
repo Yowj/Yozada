@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { CartItemWithProduct } from '@/lib/types'
+import type { CartItemWithProduct } from '@/lib/types'
 
 /**
  * Get all cart items for a user with product details
@@ -25,7 +25,7 @@ export async function getCartItems(userId: string): Promise<CartItemWithProduct[
 }
 
 /**
- * Get cart item count for a user
+ * Get total item count in cart (sum of quantities)
  */
 export async function getCartItemCount(userId: string): Promise<number> {
   const supabase = await createClient()
@@ -40,21 +40,27 @@ export async function getCartItemCount(userId: string): Promise<number> {
     return 0
   }
 
-  // Sum up all quantities
   return data.reduce((total, item) => total + item.quantity, 0)
 }
 
 /**
- * Get cart total price
+ * Calculate cart total price
  */
-export async function getCartTotal(userId: string): Promise<string> {
+export async function getCartTotal(userId: string): Promise<number> {
   const cartItems = await getCartItems(userId)
 
-  const total = cartItems.reduce((sum, item) => {
-    // Remove $ and convert to number
-    const price = parseFloat(item.product.price.replace('$', ''))
+  return cartItems.reduce((sum, item) => {
+    const price = typeof item.product.price === 'number'
+      ? item.product.price
+      : parseFloat(String(item.product.price).replace('$', ''))
     return sum + (price * item.quantity)
   }, 0)
+}
 
+/**
+ * Format cart total as currency string
+ */
+export async function getCartTotalFormatted(userId: string): Promise<string> {
+  const total = await getCartTotal(userId)
   return `$${total.toFixed(2)}`
 }

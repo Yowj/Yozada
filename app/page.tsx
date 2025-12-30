@@ -2,7 +2,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getFeaturedProducts, getProducts } from "@/lib/products";
+import { getFeaturedProducts, getProducts } from "@/lib/queries";
 import { HeroSection } from "@/components/hero-section";
 import { BenefitsSection } from "@/components/benefits-section";
 import { CategoryShowcase } from "@/components/category-showcase";

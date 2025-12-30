@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 
 /**
  * Add item to cart or increment quantity if already exists
+ * Validates stock availability before adding
  */
 export async function addToCart(productId: number, quantity: number = 1) {
   const supabase = await createClient()
@@ -16,25 +17,41 @@ export async function addToCart(productId: number, quantity: number = 1) {
     return { success: false, error: 'Please login to add items to cart' }
   }
 
-  // First, try to get existing cart item
-  const { data: existingItem, error: fetchError } = await supabase
+  // Check product stock
+  const { data: product, error: productError } = await supabase
+    .from('products')
+    .select('stock, name')
+    .eq('id', productId)
+    .single()
+
+  if (productError || !product) {
+    return { success: false, error: 'Product not found' }
+  }
+
+  // Get existing cart item to check total quantity
+  const { data: existingItem } = await supabase
     .from('cart_items')
-    .select('*')
+    .select('id, quantity')
     .eq('user_id', user.id)
     .eq('product_id', productId)
     .maybeSingle()
 
-  // Handle errors (but not "no rows" which is expected)
-  if (fetchError) {
-    console.error('Error fetching cart item:', fetchError)
-    return { success: false, error: fetchError.message }
+  const currentQuantity = existingItem?.quantity || 0
+  const totalQuantity = currentQuantity + quantity
+
+  // Validate stock
+  if (product.stock !== null && totalQuantity > product.stock) {
+    return {
+      success: false,
+      error: `Only ${product.stock} items available in stock`
+    }
   }
 
   if (existingItem) {
-    // Item already exists, update quantity
+    // Update existing item quantity
     const { data, error } = await supabase
       .from('cart_items')
-      .update({ quantity: existingItem.quantity + quantity })
+      .update({ quantity: totalQuantity })
       .eq('id', existingItem.id)
       .select()
       .single()
@@ -49,7 +66,7 @@ export async function addToCart(productId: number, quantity: number = 1) {
     return { success: true, data, message: 'Cart updated!' }
   }
 
-  // Item doesn't exist, create new cart item
+  // Create new cart item
   const { data, error } = await supabase
     .from('cart_items')
     .insert({
@@ -76,7 +93,6 @@ export async function addToCart(productId: number, quantity: number = 1) {
 export async function removeFromCart(cartItemId: number) {
   const supabase = await createClient()
 
-  // Get current user
   const { data: { user }, error: authError } = await supabase.auth.getUser()
 
   if (authError || !user) {
@@ -87,7 +103,7 @@ export async function removeFromCart(cartItemId: number) {
     .from('cart_items')
     .delete()
     .eq('id', cartItemId)
-    .eq('user_id', user.id) // Security: ensure user owns this cart item
+    .eq('user_id', user.id)
 
   if (error) {
     console.error('Error removing from cart:', error)
@@ -101,27 +117,50 @@ export async function removeFromCart(cartItemId: number) {
 
 /**
  * Update quantity of a cart item
+ * Validates stock availability
  */
 export async function updateCartItemQuantity(cartItemId: number, quantity: number) {
   const supabase = await createClient()
 
-  // Get current user
   const { data: { user }, error: authError } = await supabase.auth.getUser()
 
   if (authError || !user) {
     return { success: false, error: 'Unauthorized' }
   }
 
-  // If quantity is 0 or less, remove the item
+  // Remove if quantity is 0 or less
   if (quantity <= 0) {
     return await removeFromCart(cartItemId)
+  }
+
+  // Get cart item with product info for stock check
+  const { data: cartItem, error: cartError } = await supabase
+    .from('cart_items')
+    .select('product_id, products(stock, name)')
+    .eq('id', cartItemId)
+    .eq('user_id', user.id)
+    .single()
+
+  if (cartError || !cartItem) {
+    return { success: false, error: 'Cart item not found' }
+  }
+
+  // Check stock if available
+  // Supabase returns nested relations - handle both array and object formats
+  const productData = cartItem.products
+  const product = Array.isArray(productData) ? productData[0] : productData
+  if (product?.stock !== null && product?.stock !== undefined && quantity > product.stock) {
+    return {
+      success: false,
+      error: `Only ${product.stock} items available in stock`
+    }
   }
 
   const { data, error } = await supabase
     .from('cart_items')
     .update({ quantity })
     .eq('id', cartItemId)
-    .eq('user_id', user.id) // Security: ensure user owns this cart item
+    .eq('user_id', user.id)
     .select()
     .single()
 
@@ -141,7 +180,6 @@ export async function updateCartItemQuantity(cartItemId: number, quantity: numbe
 export async function clearCart() {
   const supabase = await createClient()
 
-  // Get current user
   const { data: { user }, error: authError } = await supabase.auth.getUser()
 
   if (authError || !user) {

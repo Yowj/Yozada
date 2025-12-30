@@ -2,7 +2,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getProducts } from "@/lib/products";
+import { getProducts } from "@/lib/queries";
 import { ProductCard } from "@/components/product-card";
 import { AnnouncementBar } from "@/components/announcement-bar";
 import { Search, SlidersHorizontal } from "lucide-react";

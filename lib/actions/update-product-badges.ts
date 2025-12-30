@@ -2,7 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-import { getAdminUser } from '@/lib/auth/admin'
+import { getAdminUser } from '@/lib/auth/server'
 
 export async function updateProductBadges() {
   // Check if user is admin

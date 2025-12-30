@@ -2,7 +2,7 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Package, Users, ShoppingCart, TrendingUp } from 'lucide-react'
 import Link from 'next/link'
-import { getProducts } from '@/lib/products'
+import { getProducts } from '@/lib/queries'
 import { createClient } from '@/lib/supabase/server'
 
 export default async function AdminDashboard() {

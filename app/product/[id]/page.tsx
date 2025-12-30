@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { getProductById, getProducts } from "@/lib/products";
+import { getProductById, getProducts } from "@/lib/queries";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -170,7 +170,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   <span className="text-4xl font-bold">${product.price}</span>
                   {product.badge === "Sale" && (
                     <span className="ml-2 text-lg text-muted-foreground line-through">
-                      ${(parseFloat(product.price) * 1.2).toFixed(2)}
+                      ${(product.price * 1.2).toFixed(2)}
                     </span>
                   )}
                 </div>
