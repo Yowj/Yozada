@@ -1,21 +1,23 @@
-'use client'
+"use client";
 
-import { useEffect } from 'react'
-import { Button } from '@/components/ui/button'
+import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function Error({
   error,
   reset,
 }: {
-  error: Error & { digest?: string }
-  reset: () => void
+  error: Error & { digest?: string };
+  reset: () => void;
 }) {
+  const router = useRouter();
   useEffect(() => {
     // Log error for debugging
-    console.error('Global error caught:', error)
-    console.error('Error digest:', error.digest)
-    console.error('Timestamp:', new Date().toISOString())
-  }, [error])
+    console.error("Global error caught:", error);
+    console.error("Error digest:", error.digest);
+    console.error("Timestamp:", new Date().toISOString());
+  }, [error]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
@@ -61,11 +63,7 @@ export default function Error({
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Button
-            onClick={reset}
-            size="lg"
-            className="w-full sm:w-auto"
-          >
+          <Button onClick={reset} size="lg" className="w-full sm:w-auto">
             <svg
               className="w-4 h-4 mr-2"
               fill="none"
@@ -81,7 +79,7 @@ export default function Error({
           </Button>
 
           <Button
-            onClick={() => window.location.href = '/'}
+            onClick={() => router.redirect("/")}
             variant="outline"
             size="lg"
             className="w-full sm:w-auto"
@@ -107,5 +105,5 @@ export default function Error({
         </p>
       </div>
     </div>
-  )
+  );
 }
