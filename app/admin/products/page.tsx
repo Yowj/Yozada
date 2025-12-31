@@ -1,4 +1,4 @@
-import { getProducts } from '@/lib/products'
+import { getProducts } from '@/lib/queries'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { AddProductButton } from '@/components/add-product-button'

@@ -1,6 +1,21 @@
 import { createClient } from '@/lib/supabase/server'
+import type { User } from '@supabase/supabase-js'
 
-export async function isAdmin() {
+/**
+ * Get the current authenticated user
+ * Returns null if not authenticated
+ */
+export async function getUser(): Promise<User | null> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  return user
+}
+
+/**
+ * Check if current user is an admin
+ * Returns false if not authenticated or not admin
+ */
+export async function isAdmin(): Promise<boolean> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -8,7 +23,6 @@ export async function isAdmin() {
     return false
   }
 
-  // Query users table instead
   const { data, error } = await supabase
     .from('users')
     .select('is_admin')
@@ -23,17 +37,23 @@ export async function isAdmin() {
   return data?.is_admin ?? false
 }
 
-export async function requireAdmin() {
+/**
+ * Require admin access - throws if not admin
+ * Use in server actions that require admin permissions
+ */
+export async function requireAdmin(): Promise<void> {
   const admin = await isAdmin()
 
   if (!admin) {
     throw new Error('Unauthorized: Admin access required')
   }
-
-  return true
 }
 
-export async function getAdminUser() {
+/**
+ * Get the current user only if they are an admin
+ * Returns null if not authenticated or not admin
+ */
+export async function getAdminUser(): Promise<User | null> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -41,8 +61,7 @@ export async function getAdminUser() {
     return null
   }
 
-  // Check admin status in users table
-  const { data: userData, error } = await supabase
+  const { data, error } = await supabase
     .from('users')
     .select('is_admin')
     .eq('id', user.id)
@@ -53,7 +72,7 @@ export async function getAdminUser() {
     return null
   }
 
-  if (!userData?.is_admin) {
+  if (!data?.is_admin) {
     return null
   }
 

@@ -11,7 +11,7 @@ import { ThemeSwitcher } from "./theme-switcher";
 import { AuthNav } from "./auth-nav";
 import { CartSidebar } from "./cart-sidebar";
 import { categories } from "@/constants/categories";
-import { checkIsAdmin } from "@/lib/auth/admin-client";
+import { checkIsAdmin } from "@/lib/auth/client";
 import { createClient } from "@/lib/supabase/client";
 
 export function Navbar() {

@@ -1,20 +1,18 @@
 import { createClient } from '@/lib/supabase/client'
 
 /**
- * Client-side admin check function.
- * This is for UI purposes only - actual security is enforced server-side.
+ * Client-side admin check
+ * For UI purposes only - actual security is enforced server-side
  */
 export async function checkIsAdmin(): Promise<boolean> {
   const supabase = createClient()
 
-  // Get the current user
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
     return false
   }
 
-  // Query users table for admin status (matching server-side logic)
   const { data, error } = await supabase
     .from('users')
     .select('is_admin')
@@ -27,4 +25,13 @@ export async function checkIsAdmin(): Promise<boolean> {
   }
 
   return data?.is_admin ?? false
+}
+
+/**
+ * Get current user on client side
+ */
+export async function getCurrentUser() {
+  const supabase = createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  return user
 }
