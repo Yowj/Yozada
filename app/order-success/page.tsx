@@ -15,7 +15,6 @@ export default function OrderSuccessPage() {
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          router.push("/");
           return 0;
         }
         return prev - 1;
@@ -23,7 +22,13 @@ export default function OrderSuccessPage() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [router]);
+  }, []);
+
+  useEffect(() => {
+    if (countdown === 0) {
+      router.push("/");
+    }
+  }, [countdown, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-background to-muted/20">
@@ -39,9 +44,7 @@ export default function OrderSuccessPage() {
           {/* Thank You Message */}
           <div className="space-y-2">
             <h1 className="text-3xl font-bold">Thank You!</h1>
-            <p className="text-lg text-muted-foreground">
-              Thank you for shopping with us
-            </p>
+            <p className="text-lg text-muted-foreground">Thank you for shopping with us</p>
           </div>
 
           {/* Order Confirmation */}
@@ -58,8 +61,8 @@ export default function OrderSuccessPage() {
           <div className="pt-4 space-y-4">
             <p className="text-sm text-muted-foreground">
               Redirecting to home page in{" "}
-              <span className="font-bold text-foreground">{countdown}</span>{" "}
-              second{countdown !== 1 ? "s" : ""}...
+              <span className="font-bold text-foreground">{countdown}</span> second
+              {countdown !== 1 ? "s" : ""}...
             </p>
 
             {/* Manual Redirect Button */}

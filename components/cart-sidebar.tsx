@@ -183,12 +183,7 @@ export function CartSidebar() {
               <div className="space-y-2">
                 <Button className="w-full" size="lg" asChild>
                   <Link href="/checkout" onClick={() => setOpen(false)}>
-                    Checkout
-                  </Link>
-                </Button>
-                <Button variant="outline" className="w-full" size="lg" asChild>
-                  <Link href="/cart" onClick={() => setOpen(false)}>
-                    View Full Cart
+                    Proceed to Checkout
                   </Link>
                 </Button>
               </div>

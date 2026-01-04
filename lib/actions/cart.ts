@@ -3,6 +3,9 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
+
+
+
 /**
  * Add item to cart or increment quantity if already exists
  * Validates stock availability before adding
@@ -199,11 +202,12 @@ export async function clearCart() {
   }
 
   const { error } = await supabase.from("cart_items").delete().eq("user_id", user.id);
-
   if (error) {
     console.error("Error clearing cart:", error);
     return { success: false, error: error.message };
   }
+
+
   return { success: true, message: "Cart cleared" };
 }
 

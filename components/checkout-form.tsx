@@ -7,21 +7,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Field, FieldGroup, FieldLabel, FieldDescription, FieldError } from "@/components/ui/field";
 import { cn } from "@/lib/utils";
-import type { PaymentMethod, ContactInfo, ShippingAddress, FormErrors } from "@/lib/types/checkout";
+import type { PaymentMethod, ShippingAddress, FormErrors } from "@/lib/types/checkout";
 import { clearCart } from "@/lib/actions/cart";
 import { useRouter } from "next/navigation";
+import { useCart } from "@/lib/contexts/cart-context";
 
 export function CheckoutForm() {
   const [paymentMethod, setPaymentMethod] = React.useState<PaymentMethod>("credit");
   const [showModal, setShowModal] = React.useState(false);
   const [isProcessing, setIsProcessing] = React.useState(false);
   const [errors, setErrors] = React.useState<FormErrors>({});
-
-  const [contactInfo, setContactInfo] = React.useState<ContactInfo>({
-    email: "",
-    phone: "",
-    newsletter: false,
-  });
 
   const [shippingAddress, setShippingAddress] = React.useState<ShippingAddress>({
     firstName: "",
@@ -31,10 +26,11 @@ export function CheckoutForm() {
     city: "",
     state: "",
     zip: "",
-    country: "United States",
+    country: "Philippines",
   });
 
   const router = useRouter();
+  const { refreshCart } = useCart();
 
   const stepRefs = {
     contact: React.useRef<HTMLDivElement>(null),
@@ -43,19 +39,8 @@ export function CheckoutForm() {
     review: React.useRef<HTMLDivElement>(null),
   };
 
-  function validateEmail(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
-
   function validateContactSection(): boolean {
     const newErrors: FormErrors = {};
-
-    if (!contactInfo.email) {
-      newErrors.email = "Email is required";
-    } else if (!validateEmail(contactInfo.email)) {
-      newErrors.email = "Please enter a valid email address";
-    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -71,46 +56,25 @@ export function CheckoutForm() {
     setShowModal(true);
   }
 
-  const handleConfirmOrder = () => {
+  const handleConfirmOrder = async () => {
     setIsProcessing(true);
-    clearCart();
+    const result = await clearCart();
+
+    if (!result.success) {
+      console.error("Error clearing cart:", result.error);
+      setIsProcessing(false);
+      return;
+    }
+
+    // Refresh cart context to sync with server state
+    await refreshCart();
+
     router.push("/order-success");
   };
 
   return (
     <>
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Contact Information */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Contact Information</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor="email">Email *</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  autoComplete="email"
-                  placeholder="you@example.com"
-                  value={contactInfo.email}
-                  onChange={(e) => {
-                    setContactInfo({ ...contactInfo, email: e.target.value });
-                    if (errors.email) {
-                      setErrors({ ...errors, email: "" });
-                    }
-                  }}
-                  onBlur={() => validateContactSection()}
-                  className={cn(errors.email && "border-destructive")}
-                  required
-                />
-                {errors.email && <FieldError>{errors.email}</FieldError>}
-              </Field>
-            </FieldGroup>
-          </CardContent>
-        </Card>
-
         {/* Shipping Address */}
         <Card ref={stepRefs.shipping}>
           <CardHeader>
@@ -123,7 +87,6 @@ export function CheckoutForm() {
                   <FieldLabel htmlFor="firstName">First Name *</FieldLabel>
                   <Input
                     id="firstName"
-                    autoComplete="given-name"
                     placeholder="John"
                     value={shippingAddress.firstName}
                     onChange={(e) => {
@@ -145,7 +108,6 @@ export function CheckoutForm() {
                   <FieldLabel htmlFor="lastName">Last Name *</FieldLabel>
                   <Input
                     id="lastName"
-                    autoComplete="family-name"
                     placeholder="Doe"
                     value={shippingAddress.lastName}
                     onChange={(e) => {
@@ -168,8 +130,7 @@ export function CheckoutForm() {
                 <FieldLabel htmlFor="address1">Address *</FieldLabel>
                 <Input
                   id="address1"
-                  autoComplete="address-line1"
-                  placeholder="123 Main St"
+                  placeholder="123 Mabini Street"
                   value={shippingAddress.address1}
                   onChange={(e) => {
                     setShippingAddress({
@@ -191,7 +152,7 @@ export function CheckoutForm() {
                 <Input
                   id="address2"
                   autoComplete="address-line2"
-                  placeholder="Apt 4B"
+                  placeholder="Unit 4B, Building 2"
                   value={shippingAddress.address2}
                   onChange={(e) =>
                     setShippingAddress({
@@ -208,7 +169,7 @@ export function CheckoutForm() {
                   <Input
                     id="city"
                     autoComplete="address-level2"
-                    placeholder="New York"
+                    placeholder="Quezon City"
                     value={shippingAddress.city}
                     onChange={(e) => {
                       setShippingAddress({
@@ -226,11 +187,11 @@ export function CheckoutForm() {
                 </Field>
 
                 <Field>
-                  <FieldLabel htmlFor="state">State *</FieldLabel>
+                  <FieldLabel htmlFor="state">Province/Region *</FieldLabel>
                   <Input
                     id="state"
                     autoComplete="address-level1"
-                    placeholder="NY"
+                    placeholder="Metro Manila"
                     value={shippingAddress.state}
                     onChange={(e) => {
                       setShippingAddress({
@@ -252,7 +213,7 @@ export function CheckoutForm() {
                   <Input
                     id="zip"
                     autoComplete="postal-code"
-                    placeholder="10001"
+                    placeholder="1100"
                     inputMode="numeric"
                     value={shippingAddress.zip}
                     onChange={(e) => {
@@ -341,7 +302,7 @@ export function CheckoutForm() {
                           onChange={() => setPaymentMethod("paypal")}
                           className="h-4 w-4"
                         />
-                        <span className="text-sm font-medium">PayPal</span>
+                        <span className="text-sm font-medium">GCash</span>
                       </div>
                     </Field>
                   </FieldLabel>
@@ -364,7 +325,7 @@ export function CheckoutForm() {
                           onChange={() => setPaymentMethod("applepay")}
                           className="h-4 w-4"
                         />
-                        <span className="text-sm font-medium">Apple Pay</span>
+                        <span className="text-sm font-medium">Maya</span>
                       </div>
                     </Field>
                   </FieldLabel>
@@ -394,31 +355,31 @@ export function CheckoutForm() {
 
                     <Field>
                       <FieldLabel>Cardholder Name</FieldLabel>
-                      <Input placeholder="John Doe" disabled className="bg-muted" />
+                      <Input placeholder="Juan Dela Cruz" disabled className="bg-muted" />
                     </Field>
                   </div>
                 )}
 
-                {/* PayPal Placeholder */}
+                {/* GCash Placeholder */}
                 {paymentMethod === "paypal" && (
                   <div className="pt-4">
                     <Button type="button" variant="outline" className="w-full" disabled>
-                      Continue with PayPal
+                      Continue with GCash
                     </Button>
                     <p className="text-sm text-muted-foreground mt-2">
-                      PayPal integration to be implemented by you
+                      GCash integration to be implemented by you
                     </p>
                   </div>
                 )}
 
-                {/* Apple Pay Placeholder */}
+                {/* Maya Placeholder */}
                 {paymentMethod === "applepay" && (
                   <div className="pt-4">
                     <Button type="button" variant="outline" className="w-full" disabled>
-                      Continue with Apple Pay
+                      Continue with Maya
                     </Button>
                     <p className="text-sm text-muted-foreground mt-2">
-                      Apple Pay integration to be implemented by you
+                      Maya integration to be implemented by you
                     </p>
                   </div>
                 )}
@@ -442,8 +403,8 @@ export function CheckoutForm() {
                 <div className="flex gap-2 text-muted-foreground">
                   <span className="text-xs border px-2 py-1 rounded">VISA</span>
                   <span className="text-xs border px-2 py-1 rounded">MASTERCARD</span>
-                  <span className="text-xs border px-2 py-1 rounded">AMEX</span>
-                  <span className="text-xs border px-2 py-1 rounded">PAYPAL</span>
+                  <span className="text-xs border px-2 py-1 rounded">GCASH</span>
+                  <span className="text-xs border px-2 py-1 rounded">MAYA</span>
                 </div>
               </div>
             </FieldGroup>
