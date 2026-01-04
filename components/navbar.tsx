@@ -2,21 +2,20 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Menu, Search, X } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import Image from "next/image";
 import { ThemeSwitcher } from "./theme-switcher";
 import { AuthNav } from "./auth-nav";
 import { CartSidebar } from "./cart-sidebar";
+import { SearchBar } from "./search-bar";
 import { categories } from "@/constants/categories";
 import { checkIsAdmin } from "@/lib/auth/client";
 import { createClient } from "@/lib/supabase/client";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [isSearchOpen, setIsSearchOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
   const [isAdmin, setIsAdmin] = React.useState(false);
 
@@ -61,14 +60,7 @@ export function Navbar() {
                   <div className="mt-6 flex flex-col">
                     {/* Mobile Search */}
                     <div className="mb-6">
-                      <div className="relative">
-                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                        <Input
-                          type="search"
-                          placeholder="Search products..."
-                          className="w-full pl-10"
-                        />
-                      </div>
+                      <SearchBar />
                     </div>
 
                     {/* Categories */}
@@ -162,31 +154,15 @@ export function Navbar() {
 
           {/* Desktop Search */}
           <div className="hidden flex-1 items-center justify-center px-8 lg:flex lg:max-w-md">
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search products..."
-                className="w-full pl-10"
-              />
-            </div>
+            <SearchBar className="w-full" />
           </div>
 
           {/* Actions */}
           <div className="flex items-center gap-1">
-            {/* Mobile Search Toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="lg:hidden"
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-            >
-              {isSearchOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Search className="h-5 w-5" />
-              )}
-            </Button>
+            {/* Mobile Search */}
+            <div className="lg:hidden">
+              <SearchBar />
+            </div>
 
             {isAdmin && (
               <Link href="/admin" className="hidden md:block">
@@ -201,20 +177,6 @@ export function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Search Bar */}
-        {isSearchOpen && (
-          <div className="border-t px-4 py-3 lg:hidden">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search products..."
-                className="w-full pl-10"
-                autoFocus
-              />
-            </div>
-          </div>
-        )}
       </div>
     </nav>
   );
