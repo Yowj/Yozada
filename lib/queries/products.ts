@@ -56,3 +56,30 @@ export async function getProductById(id: string): Promise<Product | null> {
 
   return data as Product;
 }
+
+/**
+ * Search products by name or description
+ * Uses case-insensitive pattern matching
+ */
+export async function searchProducts(query: string): Promise<Product[]> {
+  if (!query.trim()) {
+    return []
+  }
+
+  const supabase = await createClient()
+  const searchTerm = `%${query.trim()}%`
+
+  const { data, error } = await supabase
+    .from('products')
+    .select('*')
+    .or(`name.ilike.${searchTerm},description.ilike.${searchTerm}`)
+    .order('name', { ascending: true })
+    .limit(10)
+
+  if (error) {
+    console.error('Error searching products:', error)
+    return []
+  }
+
+  return (data || []) as Product[]
+}

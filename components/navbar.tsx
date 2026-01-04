@@ -2,23 +2,22 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Menu, Search, X, ChevronRight } from "lucide-react";
-import { Input } from "@/ui/input";
+import { Menu, ChevronRight } from "lucide-react";
 import { Button } from "@/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/ui/sheet";
 import Image from "next/image";
 import { ThemeSwitcher } from "./theme-switcher";
 import { AuthNav } from "../ui/navbar/auth-nav";
 import { CartSidebar } from "./CartSidebar";
+import { SearchBar } from "./search-bar";
 import { categories } from "@/constants/categories";
 import { checkIsAdmin } from "@/lib/auth/client";
 import { createClient } from "@/lib/supabase/client";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [isSearchOpen, setIsSearchOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
   const [isAdmin, setIsAdmin] = React.useState(false);
   const [hasScrolled, setHasScrolled] = React.useState(false);
@@ -89,14 +88,7 @@ export function Navbar() {
                   <div className="mt-6 flex flex-col">
                     {/* Mobile Search */}
                     <div className="mb-6">
-                      <div className="relative">
-                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                        <Input
-                          type="search"
-                          placeholder="Search products..."
-                          className="w-full pl-10"
-                        />
-                      </div>
+                      <SearchBar />
                     </div>
 
                     {/* Categories */}
@@ -239,62 +231,16 @@ export function Navbar() {
           </div>
 
           {/* Desktop Search */}
-          <motion.div
-            className="hidden flex-1 items-center justify-center px-8 lg:flex lg:max-w-md"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search products..."
-                className="w-full pl-10 transition-shadow focus:shadow-md"
-              />
-            </div>
-          </motion.div>
+          <div className="hidden flex-1 items-center justify-center px-8 lg:flex lg:max-w-md">
+            <SearchBar className="w-full" />
+          </div>
 
           {/* Actions */}
-          <motion.div
-            className="flex items-center gap-1"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
-            {/* Mobile Search Toggle */}
-            <motion.div whileTap={{ scale: 0.95 }}>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="lg:hidden"
-                onClick={() => setIsSearchOpen(!isSearchOpen)}
-              >
-                <AnimatePresence mode="wait">
-                  {isSearchOpen ? (
-                    <motion.div
-                      key="close"
-                      initial={{ rotate: -90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: 90, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <X className="h-5 w-5" />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="search"
-                      initial={{ rotate: 90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: -90, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <Search className="h-5 w-5" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </Button>
-            </motion.div>
+          <div className="flex items-center gap-1">
+            {/* Mobile Search */}
+            <div className="lg:hidden">
+              <SearchBar />
+            </div>
 
             {isAdmin && (
               <Link href="/admin" className="hidden md:block">
@@ -308,31 +254,8 @@ export function Navbar() {
             <ThemeSwitcher />
             <CartSidebar />
             <AuthNav />
-          </motion.div>
+          </div>
         </div>
-
-        {/* Mobile Search Bar */}
-        <AnimatePresence>
-          {isSearchOpen && (
-            <motion.div
-              className="border-t px-4 py-3 lg:hidden"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  type="search"
-                  placeholder="Search products..."
-                  className="w-full pl-10"
-                  autoFocus
-                />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </motion.nav>
   );
