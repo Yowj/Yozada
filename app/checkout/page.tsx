@@ -2,9 +2,10 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ChevronRight, Home } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
-import { getCartItems, getCartTotal } from "@/lib/cart";
 import { CheckoutForm } from "@/components/checkout-form";
 import { CheckoutOrderSummary } from "@/components/checkout-order-summary";
+import { getCartItems, getCartTotal } from "@/lib/queries";
+import { CartItemWithProduct } from "@/lib/types";
 
 export const metadata = {
   title: "Checkout | E-Commerce Store",
@@ -13,14 +14,13 @@ export const metadata = {
 
 export default async function CheckoutPage() {
   const supabase = await createClient();
-
   // Get user session
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  let cartItems = [];
-  let subtotal = "$0.00";
+  let cartItems: CartItemWithProduct[] = [];
+  let subtotal = 0;
 
   if (user) {
     cartItems = await getCartItems(user.id);
