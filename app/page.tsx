@@ -9,7 +9,8 @@ import { CategoryShowcase } from "@/components/category-showcase";
 import { FeaturedProducts } from "@/components/featured-products";
 import { ProductCard } from "@/components/product-card";
 import { TestimonialsSection } from "@/components/testimonials-section";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { AnimatedCTA } from "@/components/animated-cta";
 
 export default async function Home() {
   const featuredProducts = await getFeaturedProducts();
@@ -39,33 +40,36 @@ export default async function Home() {
         />
 
         {/* All Products Section */}
-        <section className="w-full bg-muted/30 px-4 py-12 md:py-16">
+        <section className="w-full bg-muted/30 px-4 py-16 md:py-20">
           <div className="mx-auto max-w-7xl">
-            <div className="mb-8 flex items-center justify-between">
+            <div className="mb-10 flex items-center justify-between">
               <div>
-                <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+                <span className="mb-2 inline-block text-sm font-semibold uppercase tracking-widest text-primary">
+                  Our Collection
+                </span>
+                <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
                   Shop Our Collection
                 </h2>
-                <p className="mt-2 text-muted-foreground">
-                  Discover quality products for every need
+                <p className="mt-3 max-w-lg text-muted-foreground">
+                  Discover quality products for every need, curated for modern living
                 </p>
               </div>
-              <Button variant="outline" asChild className="hidden sm:flex">
+              <Button variant="outline" asChild className="hidden gap-2 sm:flex group">
                 <Link href="/products">
                   View All
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </Button>
             </div>
 
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-6">
-              {products.slice(0, 8).map((product) => (
-                <ProductCard key={product.id} product={product} />
+              {products.slice(0, 8).map((product, index) => (
+                <ProductCard key={product.id} product={product} index={index} />
               ))}
             </div>
 
-            <div className="mt-8 flex justify-center sm:hidden">
-              <Button variant="outline" asChild>
+            <div className="mt-10 flex justify-center sm:hidden">
+              <Button variant="outline" asChild className="gap-2">
                 <Link href="/products">
                   View All Products
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -79,28 +83,8 @@ export default async function Home() {
         <TestimonialsSection />
 
         {/* Call to Action Section */}
-        <section className="w-full px-4 py-16 md:py-24">
-          <div className="mx-auto max-w-4xl text-center">
-            <h2 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl">
-              Ready to Upgrade Your Lifestyle?
-            </h2>
-            <p className="mb-8 text-lg text-muted-foreground md:text-xl">
-              Join thousands of happy customers who trust Yozada for quality products. Start
-              shopping today and experience the difference.
-            </p>
-            <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-              <Button size="lg" asChild className="group">
-                <Link href="/products">
-                  Start Shopping
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild>
-                <Link href="/about">About Us</Link>
-              </Button>
-            </div>
-          </div>
-        </section>
+        <AnimatedCTA />
+
         <Footer />
       </main>
     </>
