@@ -39,20 +39,8 @@ export function CheckoutForm() {
     review: React.useRef<HTMLDivElement>(null),
   };
 
-  function validateContactSection(): boolean {
-    const newErrors: FormErrors = {};
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  }
-
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-
-    if (validateContactSection()) {
-      stepRefs.shipping.current?.scrollIntoView({ behavior: "smooth" });
-    }
-
     setShowModal(true);
   }
 

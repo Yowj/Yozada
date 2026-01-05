@@ -53,7 +53,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
             <FieldGroup>
               <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
-                <p className="text-muted-foreground text-balance">Login to your Acme Inc account</p>
+                <p className="text-muted-foreground text-balance">Login to your Yozada account</p>
                 <div className="text-red-600">{error}</div>
               </div>
 

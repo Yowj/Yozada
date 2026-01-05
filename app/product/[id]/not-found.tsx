@@ -16,7 +16,7 @@ export default function ProductNotFound() {
             Product Not Found
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            Sorry, we couldn&apos;t find the product you&apos;re looking for.
+            Sorry, we couldn&apos;t find the product you&apos;re looking for. It might be moved or deleted.
           </p>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
             <Button size="lg" asChild>
