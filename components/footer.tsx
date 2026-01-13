@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
+import { Button } from "@/ui/button";
+import { Input } from "@/ui/input";
+import { Separator } from "@/ui/separator";
 import { footerLinks } from "@/constants/footer-links";
 
 // Social Media Icons
@@ -112,7 +112,8 @@ export function Footer() {
               <span className="text-xl font-bold">Yozada</span>
             </Link>
             <p className="mb-6 max-w-xs text-sm text-muted-foreground">
-              Your trusted destination for quality products. Discover unique items curated just for you, delivered with care.
+              Your trusted destination for quality products. Discover unique items curated just for
+              you, delivered with care.
             </p>
 
             {/* Social Links */}

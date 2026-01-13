@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { FadeIn, Stagger, StaggerItem } from "@/components/ui/motion";
+import { FadeIn, Stagger, StaggerItem } from "@/ui/motion";
 
 const categories = [
   {
@@ -34,13 +34,7 @@ const categories = [
   },
 ];
 
-function CategoryCard({
-  category,
-  index,
-}: {
-  category: (typeof categories)[0];
-  index: number;
-}) {
+function CategoryCard({ category, index }: { category: (typeof categories)[0]; index: number }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -58,12 +52,7 @@ function CategoryCard({
             animate={{ scale: isHovered ? 1.1 : 1 }}
             transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
           >
-            <Image
-              src={category.image}
-              alt={category.name}
-              fill
-              className="object-cover"
-            />
+            <Image src={category.image} alt={category.name} fill className="object-cover" />
           </motion.div>
 
           {/* Gradient overlays */}

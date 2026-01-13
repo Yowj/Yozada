@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle2 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/ui/card";
+import { Button } from "@/ui/button";
 
 export default function OrderSuccessPage() {
   const [countdown, setCountdown] = useState(5);

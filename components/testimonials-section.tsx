@@ -1,13 +1,13 @@
 "use client";
 
 import { Star, Quote, Sparkles } from "lucide-react";
-import { Card } from "@/components/ui/card";
-import { Marquee } from "./ui/marquee";
+import { Card } from "@/ui/card";
+import { Marquee } from "../ui/marquee";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { FadeIn } from "@/components/ui/motion";
+import { FadeIn } from "@/ui/motion";
 
 const testimonials = [
   {
@@ -82,14 +82,13 @@ function TestimonialCard({
     <motion.div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      whileHover={{ y: -5, scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >
       <Card
         className={cn(
-          "relative w-80 cursor-pointer overflow-hidden p-6 transition-all duration-500",
-          "border bg-card hover:shadow-xl hover:shadow-primary/5",
-          "hover:border-primary/20"
+          "relative w-80 h-[300px] cursor-pointer overflow-hidden p-4 mx-1",
+          "transition-all duration-500 border bg-card",
+          "hover:border-blue-500/50"
         )}
       >
         {/* Decorative quote icon with animation */}

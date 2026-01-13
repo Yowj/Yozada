@@ -1,10 +1,10 @@
-import { cn } from "@/lib/utils"
-import { Marquee } from "./ui/marquee"
-import { reviews } from "@/constants/reviews"
-import Image from "next/image"
+import { cn } from "@/lib/utils";
+import { Marquee } from "../ui/marquee";
+import { reviews } from "@/constants/reviews";
+import Image from "next/image";
 
-const firstRow = reviews.slice(0, reviews.length / 2)
-const secondRow = reviews.slice(reviews.length / 2)
+const firstRow = reviews.slice(0, reviews.length / 2);
+const secondRow = reviews.slice(reviews.length / 2);
 
 const ReviewCard = ({
   img,
@@ -12,10 +12,10 @@ const ReviewCard = ({
   username,
   body,
 }: {
-  img: string
-  name: string
-  username: string
-  body: string
+  img: string;
+  name: string;
+  username: string;
+  body: string;
 }) => {
   return (
     <figure
@@ -28,24 +28,16 @@ const ReviewCard = ({
       )}
     >
       <div className="flex flex-row items-center gap-2">
-        <Image
-          src={img}
-          alt={name}
-          width={32}
-          height={32}
-          className="rounded-full"
-        />
+        <Image src={img} alt={name} width={32} height={32} className="rounded-full" />
         <div className="flex flex-col">
-          <figcaption className="text-sm font-medium dark:text-white">
-            {name}
-          </figcaption>
+          <figcaption className="text-sm font-medium dark:text-white">{name}</figcaption>
           <p className="text-xs font-medium dark:text-white/40">{username}</p>
         </div>
       </div>
       <blockquote className="mt-2 text-sm">{body}</blockquote>
     </figure>
-  )
-}
+  );
+};
 
 export function MarqueeDemo() {
   return (
@@ -63,5 +55,5 @@ export function MarqueeDemo() {
       <div className="from-background pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r"></div>
       <div className="from-background pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l"></div>
     </div>
-  )
+  );
 }

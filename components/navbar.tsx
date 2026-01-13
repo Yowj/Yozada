@@ -3,13 +3,13 @@
 import * as React from "react";
 import Link from "next/link";
 import { Menu, Search, X, ChevronRight } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Input } from "@/ui/input";
+import { Button } from "@/ui/button";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/ui/sheet";
 import Image from "next/image";
 import { ThemeSwitcher } from "./theme-switcher";
-import { AuthNav } from "./auth-nav";
-import { CartSidebar } from "./cart-sidebar";
+import { AuthNav } from "../ui/navbar/auth-nav";
+import { CartSidebar } from "./CartSidebar";
 import { categories } from "@/constants/categories";
 import { checkIsAdmin } from "@/lib/auth/client";
 import { createClient } from "@/lib/supabase/client";

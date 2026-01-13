@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/ui/button";
 import { ShoppingCart } from "lucide-react";
 import { addToCart } from "@/lib/actions/cart";
 import { toast } from "sonner";

@@ -1,22 +1,22 @@
-import { Card } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Package, Users, ShoppingCart, TrendingUp } from 'lucide-react'
-import Link from 'next/link'
-import { getProducts } from '@/lib/queries'
-import { createClient } from '@/lib/supabase/server'
+import { Card } from "@/ui/card";
+import { Button } from "@/ui/button";
+import { Package, Users, ShoppingCart, TrendingUp } from "lucide-react";
+import Link from "next/link";
+import { getProducts } from "@/lib/queries";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function AdminDashboard() {
-  const products = await getProducts()
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const products = await getProducts();
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
-        <p className="text-muted-foreground">
-          Welcome back, {user?.email}
-        </p>
+        <p className="text-muted-foreground">Welcome back, {user?.email}</p>
       </div>
 
       {/* Stats Grid */}
@@ -91,5 +91,5 @@ export default async function AdminDashboard() {
         </div>
       </Card>
     </div>
-  )
+  );
 }

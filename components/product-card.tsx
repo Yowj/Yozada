@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Card } from "@/ui/card";
+import { Badge } from "@/ui/badge";
+import { Button } from "@/ui/button";
 import { ShoppingCart, Heart, Eye, Plus, Star } from "lucide-react";
 import { Product } from "@/lib/types";
 import { motion, AnimatePresence } from "framer-motion";
@@ -114,9 +114,7 @@ export function ProductCard({ product, variant = "default", index = 0 }: Product
                   onClick={handleLike}
                   className={cn(
                     "flex h-10 w-10 items-center justify-center rounded-full backdrop-blur-md transition-colors",
-                    isLiked
-                      ? "bg-red-500 text-white"
-                      : "bg-white/20 text-white hover:bg-white/30"
+                    isLiked ? "bg-red-500 text-white" : "bg-white/20 text-white hover:bg-white/30"
                   )}
                 >
                   <Heart className={cn("h-5 w-5", isLiked && "fill-current")} />
@@ -125,13 +123,8 @@ export function ProductCard({ product, variant = "default", index = 0 }: Product
 
               {/* Product info */}
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <motion.div
-                  animate={{ y: isHovered ? -10 : 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <h3 className="mb-1 text-xl font-bold text-white md:text-2xl">
-                    {product.name}
-                  </h3>
+                <motion.div animate={{ y: isHovered ? -10 : 0 }} transition={{ duration: 0.3 }}>
+                  <h3 className="mb-1 text-xl font-bold text-white md:text-2xl">{product.name}</h3>
                   <div className="flex items-center gap-2">
                     <p className="text-2xl font-bold text-white">${product.price}</p>
                     <div className="flex items-center gap-1 text-yellow-400">
@@ -189,12 +182,7 @@ export function ProductCard({ product, variant = "default", index = 0 }: Product
               animate={{ scale: isHovered ? 1.08 : 1 }}
               transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
             >
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                className="object-cover"
-              />
+              <Image src={product.image} alt={product.name} fill className="object-cover" />
             </motion.div>
 
             {/* Badge with animation */}
@@ -223,9 +211,7 @@ export function ProductCard({ product, variant = "default", index = 0 }: Product
               onClick={handleLike}
               className={cn(
                 "absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full shadow-lg backdrop-blur-md transition-colors md:opacity-0 md:group-hover:opacity-100",
-                isLiked
-                  ? "bg-red-500 text-white"
-                  : "bg-white/90 text-gray-700 hover:bg-white"
+                isLiked ? "bg-red-500 text-white" : "bg-white/90 text-gray-700 hover:bg-white"
               )}
             >
               <Heart className={cn("h-4 w-4", isLiked && "fill-current")} />
@@ -256,11 +242,7 @@ export function ProductCard({ product, variant = "default", index = 0 }: Product
                 </Button>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button
-                  size="sm"
-                  className="gap-1.5 shadow-lg"
-                  onClick={handleAddToCart}
-                >
+                <Button size="sm" className="gap-1.5 shadow-lg" onClick={handleAddToCart}>
                   <Plus className="h-4 w-4" />
                   Add
                 </Button>

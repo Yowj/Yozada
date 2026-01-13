@@ -1,16 +1,16 @@
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
-import { Button } from "@/components/ui/button";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { Button } from "@/ui/button";
 import Link from "next/link";
 import { getFeaturedProducts, getProducts } from "@/lib/queries";
-import { HeroSection } from "@/components/hero-section";
-import { BenefitsSection } from "@/components/benefits-section";
+import { HeroSection } from "@/components/Hero";
+import { BenefitsSection } from "@/components/BenefitsSection";
 import { CategoryShowcase } from "@/components/category-showcase";
-import { FeaturedProducts } from "@/components/featured-products";
+import { FeaturedProducts } from "@/components/Features";
 import { ProductCard } from "@/components/product-card";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import { ArrowRight, Sparkles } from "lucide-react";
-import { AnimatedCTA } from "@/components/animated-cta";
+import { CtaSection } from "@/components/CtaSection";
 
 export default async function Home() {
   const featuredProducts = await getFeaturedProducts();
@@ -20,26 +20,16 @@ export default async function Home() {
     <>
       <main className="min-h-screen flex flex-col">
         <Navbar />
-
-        {/* Hero Section */}
         <HeroSection
           featuredProducts={
             featuredProducts.length > 0 ? featuredProducts.slice(0, 5) : products.slice(0, 5)
           }
         />
-
-        {/* Benefits Section */}
         <BenefitsSection />
-
-        {/* Category Showcase */}
         <CategoryShowcase />
-
-        {/* Featured Products Grid */}
         <FeaturedProducts
           products={featuredProducts.length > 0 ? featuredProducts : products.slice(0, 3)}
         />
-
-        {/* All Products Section */}
         <section className="w-full bg-muted/30 px-4 py-16 md:py-20">
           <div className="mx-auto max-w-7xl">
             <div className="mb-10 flex items-center justify-between">
@@ -79,11 +69,10 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* Testimonials Section */}
         <TestimonialsSection />
 
         {/* Call to Action Section */}
-        <AnimatedCTA />
+        <CtaSection />
 
         <Footer />
       </main>

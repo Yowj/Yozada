@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/ui/button";
 import Link from "next/link";
 
 export function AnnouncementBar() {

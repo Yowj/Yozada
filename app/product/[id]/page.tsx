@@ -1,9 +1,9 @@
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { Card } from "@/ui/card";
+import { Button } from "@/ui/button";
+import { Badge } from "@/ui/badge";
+import { Separator } from "@/ui/separator";
 import { getProductById, getProducts } from "@/lib/queries";
 import Image from "next/image";
 import Link from "next/link";
