@@ -70,8 +70,6 @@ export default async function Home() {
         </section>
 
         <TestimonialsSection />
-
-        {/* Call to Action Section */}
         <CtaSection />
 
         <Footer />

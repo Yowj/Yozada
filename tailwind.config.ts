@@ -7,6 +7,7 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./ui/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -80,12 +81,12 @@ export default {
       },
       keyframes: {
         marquee: {
-          from: { transform: "translateX(0%)" },
-          to: { transform: "translateX(-100%)" },
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(calc(-100% - var(--gap)))" },
         },
         "marquee-vertical": {
-          from: { transform: "translateY(0%)" },
-          to: { transform: "translateY(-100%)" },
+          from: { transform: "translateY(0)" },
+          to: { transform: "translateY(calc(-100% - var(--gap)))" },
         },
       },
     },
