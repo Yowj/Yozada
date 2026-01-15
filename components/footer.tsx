@@ -1,9 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { footerLinks } from "@/constants/footer-links";
+import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 
 // Social Media Icons
 function InstagramIcon({ className }: { className?: string }) {
@@ -100,62 +103,78 @@ const paymentMethods = [
 
 export function Footer() {
   return (
-    <footer className="w-full border-t bg-muted/30">
-      <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-12">
+    <footer className="relative w-full overflow-hidden border-t border-primary/5 bg-muted/30">
+      {/* Background decoration */}
+      <div className="pointer-events-none absolute -left-40 -top-40 h-80 w-80 rounded-full bg-primary/5 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-primary/5 blur-3xl" />
+
+      <div className="relative mx-auto max-w-7xl px-4 py-16 md:py-20">
+        {/* Top section - Newsletter */}
+        <div className="mb-16 rounded-3xl border border-primary/5 bg-background/50 p-8 backdrop-blur-sm md:p-12">
+          <div className="mx-auto max-w-2xl text-center">
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
+              <Mail className="h-6 w-6 text-primary" />
+            </div>
+            <h3 className="mb-2 text-2xl font-bold tracking-tight md:text-3xl">
+              Stay in the Loop
+            </h3>
+            <p className="mb-6 text-muted-foreground">
+              Subscribe to get special offers, free giveaways, and exclusive deals.
+            </p>
+            <form className="flex flex-col gap-3 sm:flex-row sm:justify-center">
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                className="h-12 rounded-full border-primary/10 bg-background px-5 sm:w-80"
+              />
+              <Button className="group h-12 rounded-full px-8">
+                Subscribe
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </form>
+          </div>
+        </div>
+
+        {/* Main footer content */}
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
           {/* Brand Section */}
           <div className="lg:col-span-4">
-            <Link href="/" className="mb-4 flex items-center gap-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg border bg-background">
+            <Link href="/" className="mb-6 inline-flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-primary/10 bg-background shadow-sm">
                 <Image src="/logo.png" alt="Yozada" width={32} height={32} />
               </div>
-              <span className="text-xl font-bold">Yozada</span>
+              <span className="text-2xl font-bold">Yozada</span>
             </Link>
-            <p className="mb-6 max-w-xs text-sm text-muted-foreground">
+            <p className="mb-6 max-w-xs text-sm leading-relaxed text-muted-foreground">
               Your trusted destination for quality products. Discover unique items curated just for you, delivered with care.
             </p>
 
             {/* Social Links */}
-            <div className="mb-6">
-              <p className="mb-3 text-sm font-semibold">Follow Us</p>
-              <div className="flex gap-3">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.name}
-                    href={social.href}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border bg-background text-muted-foreground transition-colors hover:border-primary hover:text-primary"
-                    aria-label={social.name}
-                  >
-                    <social.icon className="h-5 w-5" />
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Newsletter */}
-            <div>
-              <p className="mb-3 text-sm font-semibold">Subscribe to our newsletter</p>
-              <div className="flex gap-2">
-                <Input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="max-w-[220px] bg-background"
-                />
-                <Button>Subscribe</Button>
-              </div>
+            <div className="flex gap-2">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.href}
+                  className="group flex h-11 w-11 items-center justify-center rounded-xl border border-primary/10 bg-background text-muted-foreground transition-all duration-300 hover:border-primary/20 hover:bg-primary hover:text-primary-foreground hover:shadow-lg"
+                  aria-label={social.name}
+                >
+                  <social.icon className="h-5 w-5 transition-transform group-hover:scale-110" />
+                </a>
+              ))}
             </div>
           </div>
 
           {/* Shop Links */}
           <div className="lg:col-span-2">
-            <h3 className="mb-4 text-sm font-semibold">Shop</h3>
+            <h3 className="mb-5 text-sm font-semibold uppercase tracking-wider">Shop</h3>
             <ul className="space-y-3">
               {footerLinks.shop.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    className="group inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
+                    <span className="mr-2 h-1 w-0 rounded-full bg-primary transition-all group-hover:w-2" />
                     {link.name}
                   </Link>
                 </li>
@@ -165,14 +184,15 @@ export function Footer() {
 
           {/* Company Links */}
           <div className="lg:col-span-2">
-            <h3 className="mb-4 text-sm font-semibold">Company</h3>
+            <h3 className="mb-5 text-sm font-semibold uppercase tracking-wider">Company</h3>
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    className="group inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
+                    <span className="mr-2 h-1 w-0 rounded-full bg-primary transition-all group-hover:w-2" />
                     {link.name}
                   </Link>
                 </li>
@@ -182,14 +202,15 @@ export function Footer() {
 
           {/* Support Links */}
           <div className="lg:col-span-2">
-            <h3 className="mb-4 text-sm font-semibold">Support</h3>
+            <h3 className="mb-5 text-sm font-semibold uppercase tracking-wider">Support</h3>
             <ul className="space-y-3">
               {footerLinks.support.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    className="group inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
+                    <span className="mr-2 h-1 w-0 rounded-full bg-primary transition-all group-hover:w-2" />
                     {link.name}
                   </Link>
                 </li>
@@ -199,24 +220,41 @@ export function Footer() {
 
           {/* Contact Info */}
           <div className="lg:col-span-2">
-            <h3 className="mb-4 text-sm font-semibold">Contact</h3>
-            <ul className="space-y-3 text-sm text-muted-foreground">
+            <h3 className="mb-5 text-sm font-semibold uppercase tracking-wider">Contact</h3>
+            <ul className="space-y-4">
               <li>
-                <a href="mailto:support@yozada.com" className="hover:text-foreground">
+                <a
+                  href="mailto:support@yozada.com"
+                  className="group flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/5 transition-colors group-hover:bg-primary/10">
+                    <Mail className="h-4 w-4" />
+                  </div>
                   support@yozada.com
                 </a>
               </li>
               <li>
-                <a href="tel:+1234567890" className="hover:text-foreground">
+                <a
+                  href="tel:+1234567890"
+                  className="group flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/5 transition-colors group-hover:bg-primary/10">
+                    <Phone className="h-4 w-4" />
+                  </div>
                   +1 (234) 567-890
                 </a>
               </li>
-              <li>Mon - Fri: 9am - 6pm EST</li>
+              <li className="flex items-center gap-3 text-sm text-muted-foreground">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/5">
+                  <MapPin className="h-4 w-4" />
+                </div>
+                Mon - Fri: 9am - 6pm EST
+              </li>
             </ul>
           </div>
         </div>
 
-        <Separator className="my-8" />
+        <Separator className="my-10 bg-primary/5" />
 
         {/* Bottom Bar */}
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
@@ -248,13 +286,13 @@ export function Footer() {
           </div>
 
           {/* Payment Methods */}
-          <div className="flex items-center gap-2">
-            <span className="mr-2 text-xs text-muted-foreground">We accept:</span>
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-muted-foreground">We accept:</span>
             <div className="flex gap-2">
               {paymentMethods.map((payment) => (
                 <div
                   key={payment.name}
-                  className="flex h-8 w-12 items-center justify-center rounded border bg-background"
+                  className="flex h-9 w-14 items-center justify-center rounded-lg border border-primary/10 bg-background transition-all hover:border-primary/20 hover:shadow-sm"
                   title={payment.name}
                 >
                   <payment.icon className="h-5 w-8 text-muted-foreground" />
