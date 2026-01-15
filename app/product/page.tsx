@@ -4,7 +4,7 @@ import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { getProducts } from "@/lib/queries";
 import { ProductCard } from "@/components/product-card";
-import { AnnouncementBar } from "@/components/announcement-bar";
+
 import { Search, SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
 
@@ -13,7 +13,6 @@ export default async function ProductsPage() {
 
   return (
     <>
-      <AnnouncementBar />
       <main className="min-h-screen flex flex-col">
         <Navbar />
 
