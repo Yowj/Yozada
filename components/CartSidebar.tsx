@@ -14,59 +14,30 @@ import { useCart } from "@/lib/contexts/cart-context";
 export function CartSidebar() {
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState<number | null>(null);
-  const { cartItems, refreshCart, updateItemOptimistically, removeItemOptimistically } = useCart();
+  const { cartItems, refreshCart } = useCart();
 
   async function handleUpdateQuantity(cartItemId: number, newQuantity: number) {
     setIsLoading(cartItemId);
-
-    // Optimistic update - instant UI feedback
-    updateItemOptimistically(cartItemId, newQuantity);
-
-    const result = await updateCartItemQuantity(cartItemId, newQuantity);
-
-    if (result.success) {
-      // Sync with server to ensure consistency
-      await refreshCart();
-    } else {
-      // Revert optimistic update on error
-      await refreshCart();
-    }
-
+    await updateCartItemQuantity(cartItemId, newQuantity);
+    await refreshCart();
     setIsLoading(null);
   }
 
   async function handleRemove(cartItemId: number) {
     setIsLoading(cartItemId);
-
-    // Optimistic update - instant UI feedback
-    removeItemOptimistically(cartItemId);
-
-    const result = await removeFromCart(cartItemId);
-
-    if (result.success) {
-      // Sync with server
-      await refreshCart();
-    } else {
-      // Revert optimistic update on error
-      await refreshCart();
-    }
-
+    await removeFromCart(cartItemId);
+    await refreshCart();
     setIsLoading(null);
   }
 
-  const currentTotal = React.useMemo(() => {
-    const total = cartItems.reduce((sum, item) => {
-      // Ensure price is a string before calling replace
-      const priceString = String(item.product.price);
-      const price = parseFloat(priceString.replace("$", ""));
+  const currentTotal = `$${cartItems
+    .reduce((sum, item) => {
+      const price = parseFloat(String(item.product.price).replace("$", ""));
       return sum + price * item.quantity;
-    }, 0);
-    return `$${total.toFixed(2)}`;
-  }, [cartItems]);
+    }, 0)
+    .toFixed(2)}`;
 
-  const currentCount = React.useMemo(() => {
-    return cartItems.reduce((total, item) => total + item.quantity, 0);
-  }, [cartItems]);
+  const currentCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -103,7 +74,6 @@ export function CartSidebar() {
               <div className="space-y-4">
                 {cartItems.map((item) => (
                   <div key={item.id} className="flex gap-4">
-                    {/* Product Image */}
                     <div className="relative h-24 w-24 overflow-hidden rounded-md border">
                       <Image
                         src={item.product.image}
@@ -179,7 +149,6 @@ export function CartSidebar() {
                 Shipping and taxes calculated at checkout.
               </p>
 
-              {/* Action Buttons */}
               <div className="space-y-2">
                 <Button className="w-full" size="lg" asChild>
                   <Link href="/checkout" onClick={() => setOpen(false)}>

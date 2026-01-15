@@ -44,7 +44,7 @@ export async function getFeaturedProducts(): Promise<Product[]> {
  * Fetch a single product by ID
  * Returns null if not found
  */
-export async function getProductById(id: number): Promise<Product | null> {
+export async function getProductById(id: string): Promise<Product | null> {
   const supabase = await createClient();
 
   const { data, error } = await supabase.from("products").select("*").eq("id", id).single();

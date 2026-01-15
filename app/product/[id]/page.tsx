@@ -45,7 +45,9 @@ const trustBadges = [
 export default async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
 
-  const product = await getProductById(parseInt(id));
+  // ✓ Changed: Removed parseInt() - pass UUID string directly
+  const product = await getProductById(id);
+  
   if (!product) {
     notFound();
   }

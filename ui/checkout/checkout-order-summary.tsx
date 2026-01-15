@@ -12,7 +12,6 @@ interface CheckoutOrderSummaryProps {
 }
 
 export function CheckoutOrderSummary({ cartItems, subtotal }: CheckoutOrderSummaryProps) {
-  // TODO: User should implement these calculations based on address/cart
   const shipping = 10.0;
   const total = subtotal + shipping;
 

@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useCart } from "@/lib/contexts/cart-context";
 
 interface AddToCartButtonProps {
-  productId: number;
+  productId: string;
   productStock: number;
 }
 

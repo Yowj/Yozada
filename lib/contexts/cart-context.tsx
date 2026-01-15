@@ -9,9 +9,6 @@ interface CartContextType {
   isLoading: boolean;
   error: string | null;
   refreshCart: () => Promise<void>;
-  addItemOptimistically: (item: CartItemWithProduct) => void;
-  updateItemOptimistically: (id: number, quantity: number) => void;
-  removeItemOptimistically: (id: number) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -69,55 +66,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
     loadCartData();
   }, [loadCartData]);
 
-  // Public method to refresh cart
   const refreshCart = useCallback(async () => {
     await loadCartData();
   }, [loadCartData]);
-
-  // Optimistically add item to cart
-  const addItemOptimistically = useCallback((item: CartItemWithProduct) => {
-    setCartItems((prev) => {
-      // Check if item already exists
-      const existingIndex = prev.findIndex((i) => i.product_id === item.product_id);
-
-      if (existingIndex >= 0) {
-        // Update quantity of existing item
-        const updated = [...prev];
-        updated[existingIndex] = {
-          ...updated[existingIndex],
-          quantity: updated[existingIndex].quantity + item.quantity,
-        };
-        return updated;
-      }
-
-      // Add new item
-      return [item, ...prev];
-    });
-  }, []);
-
-  // Optimistically update item quantity
-  const updateItemOptimistically = useCallback((id: number, quantity: number) => {
-    setCartItems((prev) => {
-      if (quantity <= 0) {
-        return prev.filter((item) => item.id !== id);
-      }
-      return prev.map((item) => (item.id === id ? { ...item, quantity } : item));
-    });
-  }, []);
-
-  // Optimistically remove item
-  const removeItemOptimistically = useCallback((id: number) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  }, []);
 
   const value: CartContextType = {
     cartItems,
     isLoading,
     error,
     refreshCart,
-    addItemOptimistically,
-    updateItemOptimistically,
-    removeItemOptimistically,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

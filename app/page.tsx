@@ -6,7 +6,7 @@ import { getFeaturedProducts, getProducts } from "@/lib/queries";
 import { HeroSection } from "@/components/Hero";
 import { BenefitsSection } from "@/components/BenefitsSection";
 import { CategoryShowcase } from "@/components/category-showcase";
-import { FeaturedProducts } from "@/components/Features";
+import { FeaturedProducts } from "@/components/FeaturedProducts";
 import { ProductCard } from "@/components/product-card";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import { ArrowRight, Sparkles } from "lucide-react";
