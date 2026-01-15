@@ -73,20 +73,6 @@ export function HeroSection({ featuredProducts }: HeroSectionProps) {
         <div className="grid gap-8 lg:grid-cols-5 lg:items-center lg:gap-12">
           {/* Text Content */}
           <div className="order-2 flex flex-col justify-center lg:order-1 lg:col-span-2">
-            <BlurFade delay={0.1}>
-              <Badge
-                variant="secondary"
-                className="mb-4 w-fit gap-2 border border-primary/10 bg-primary/5 px-4 py-1.5 backdrop-blur-sm"
-              >
-                <motion.span
-                  animate={{ rotate: [0, 15, -15, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <Sparkles className="h-3.5 w-3.5" />
-                </motion.span>
-                New Collection 2025
-              </Badge>
-            </BlurFade>
 
             <FadeIn delay={0.2} direction="up" distance={30}>
               <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">

@@ -10,7 +10,7 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Yozada - Premium Products for Modern Living",
+  title: "Yozada",
   description: "Discover quality products curated for you. Free shipping on orders over $50.",
 };
 
