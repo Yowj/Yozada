@@ -39,8 +39,41 @@ export function CheckoutForm() {
     review: React.useRef<HTMLDivElement>(null),
   };
 
+  function validateShippingAddress(): boolean {
+    const newErrors: FormErrors = {};
+
+    if (!shippingAddress.firstName.trim()) {
+      newErrors.firstName = "First name is required";
+    }
+    if (!shippingAddress.lastName.trim()) {
+      newErrors.lastName = "Last name is required";
+    }
+    if (!shippingAddress.address1.trim()) {
+      newErrors.address1 = "Address is required";
+    }
+    if (!shippingAddress.city.trim()) {
+      newErrors.city = "City is required";
+    }
+    if (!shippingAddress.state.trim()) {
+      newErrors.state = "Province/Region is required";
+    }
+    if (!shippingAddress.zip.trim()) {
+      newErrors.zip = "ZIP code is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    if (!validateShippingAddress()) {
+      // Scroll to first error field
+      stepRefs.shipping.current?.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+
     setShowModal(true);
   }
 
@@ -443,15 +476,17 @@ export function CheckoutForm() {
             <div className="flex gap-3">
               <button
                 onClick={() => setShowModal(false)}
-                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                disabled={isProcessing}
+                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirmOrder}
-                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                disabled={isProcessing}
+                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Confirm
+                {isProcessing ? "Processing..." : "Confirm"}
               </button>
             </div>
           </div>

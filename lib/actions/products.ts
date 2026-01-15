@@ -118,7 +118,10 @@ export async function updateProduct(id: number, formData: FormData) {
   if (price) updates.price = parseFloat(price as string);
   if (stock) updates.stock = parseInt(stock as string, 10);
   if (category) updates.category = category as string;
-  if (badge !== null) updates.badge = (badge as string) || null;
+  // Handle badge - empty string should clear badge, only skip if not provided at all
+  if (badge !== null && badge !== undefined) {
+    updates.badge = (badge as string).trim() || null;
+  }
   if (featured !== null) updates.featured = featured === "on";
 
   // Handle image upload if new image provided

@@ -190,6 +190,10 @@ export async function clearCart() {
     return { success: false, error: error.message };
   }
 
+  revalidatePath("/cart");
+  revalidatePath("/");
+  revalidatePath("/checkout");
+
   return { success: true, message: "Cart cleared" };
 }
 

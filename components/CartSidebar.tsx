@@ -92,7 +92,7 @@ export function CartSidebar() {
                     <div className="flex flex-1 flex-col justify-between">
                       <div>
                         <h4 className="text-sm font-semibold line-clamp-2">{item.product.name}</h4>
-                        <p className="text-sm font-bold text-primary">${item.product.price}</p>
+                        <p className="text-sm font-bold text-primary">${String(item.product.price).replace("$", "")}</p>
                       </div>
 
                       {/* Quantity Controls */}
