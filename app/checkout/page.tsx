@@ -2,8 +2,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ChevronRight, Home } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
-import { CheckoutForm } from "@/components/checkout-form";
-import { CheckoutOrderSummary } from "@/components/checkout-order-summary";
+import { CheckoutForm } from "@/ui/checkout/checkout-form";
+import { CheckoutOrderSummary } from "@/ui/checkout/checkout-order-summary";
 import { getCartItems, getCartTotal } from "@/lib/queries";
 import { CartItemWithProduct } from "@/lib/types";
 

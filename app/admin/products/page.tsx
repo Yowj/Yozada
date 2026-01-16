@@ -1,21 +1,19 @@
-import { getProducts } from '@/lib/queries'
-import { Card } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { AddProductButton } from '@/components/add-product-button'
-import { AddBadgesButton } from '@/components/add-badges-button'
-import Image from 'next/image'
+import { getProducts } from "@/lib/queries";
+import { Card } from "@/ui/card";
+import { Badge } from "@/ui/badge";
+import { AddProductButton } from "@/ui/admin/add-product-button";
+import { AddBadgesButton } from "@/ui/admin/add-badges-button";
+import Image from "next/image";
 
 export default async function AdminProductsPage() {
-  const products = await getProducts()
+  const products = await getProducts();
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Products</h1>
-          <p className="text-muted-foreground">
-            Manage your product catalog
-          </p>
+          <p className="text-muted-foreground">Manage your product catalog</p>
         </div>
         <div className="flex gap-3">
           <AddBadgesButton />
@@ -48,12 +46,7 @@ export default async function AdminProductsPage() {
               >
                 <div className="col-span-1">
                   <div className="relative size-12 overflow-hidden rounded-md">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-cover"
-                    />
+                    <Image src={product.image} alt={product.name} fill className="object-cover" />
                   </div>
                 </div>
                 <div className="col-span-4">
@@ -88,5 +81,5 @@ export default async function AdminProductsPage() {
         </div>
       </Card>
     </div>
-  )
+  );
 }

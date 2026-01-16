@@ -1,22 +1,13 @@
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { Card } from "@/ui/card";
+import { Button } from "@/ui/button";
+import { Badge } from "@/ui/badge";
+import { Separator } from "@/ui/separator";
 import { getProductById, getProducts } from "@/lib/queries";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowLeft,
-  Star,
-  Truck,
-  Shield,
-  RotateCcw,
-  Check,
-  Heart,
-  Share2,
-} from "lucide-react";
+import { ArrowLeft, Star, Truck, Shield, RotateCcw, Check, Heart, Share2 } from "lucide-react";
 import { notFound } from "next/navigation";
 import { AddToCartButton } from "./add-to-cart-button";
 import { ProductCard } from "@/components/product-card";
@@ -54,7 +45,9 @@ const trustBadges = [
 export default async function ProductPage({ params }: ProductPageProps) {
   const { id } = await params;
 
-  const product = await getProductById(parseInt(id));
+  // ✓ Changed: Removed parseInt() - pass UUID string directly
+  const product = await getProductById(id);
+  
   if (!product) {
     notFound();
   }
@@ -110,7 +103,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     <button
                       key={i}
                       className={`relative aspect-square w-20 overflow-hidden rounded-lg border-2 transition-colors ${
-                        i === 1 ? "border-primary" : "border-transparent hover:border-muted-foreground/50"
+                        i === 1
+                          ? "border-primary"
+                          : "border-transparent hover:border-muted-foreground/50"
                       }`}
                     >
                       <Image
@@ -155,10 +150,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <div className="mb-4 flex items-center gap-3">
                   <div className="flex items-center gap-1">
                     {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="h-5 w-5 fill-yellow-400 text-yellow-400"
-                      />
+                      <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
                     ))}
                   </div>
                   <span className="font-medium">4.9</span>
@@ -185,18 +177,27 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
                 {/* Stock Status */}
                 <div className="mb-6 flex items-center gap-2">
-                  <div className="h-2 w-2 rounded-full bg-green-500" />
-                  <span className="text-sm font-medium text-green-600">In Stock</span>
-                  {product.stock && (
-                    <span className="text-sm text-muted-foreground">
-                      ({product.stock} available)
-                    </span>
+                  {(product.stock ?? 0) > 0 ? (
+                    <>
+                      <div className="h-2 w-2 rounded-full bg-green-500" />
+                      <span className="text-sm font-medium text-green-600">In Stock</span>
+                      {product.stock && (
+                        <span className="text-sm text-muted-foreground">
+                          ({product.stock} available)
+                        </span>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <div className="h-2 w-2 rounded-full bg-red-500" />
+                      <span className="text-sm font-medium text-red-600">Out of Stock</span>
+                    </>
                   )}
                 </div>
 
                 {/* Action Buttons */}
                 <div className="mb-8 flex flex-col gap-3 sm:flex-row">
-                  <AddToCartButton productId={product.id} />
+                  <AddToCartButton productId={product.id} productStock={product.stock ?? 0} />
                   <Button size="lg" variant="outline" className="flex-1 sm:flex-initial">
                     <Heart className="mr-2 h-5 w-5" />
                     Wishlist
@@ -246,13 +247,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <h3 className="mb-4 text-lg font-semibold">About This Product</h3>
                 <div className="prose prose-sm max-w-none text-muted-foreground">
                   <p>
-                    Experience premium quality with our {product.name.toLowerCase()}. This
-                    product has been carefully designed and manufactured to meet the highest
-                    standards of quality and durability.
+                    Experience premium quality with our {product.name.toLowerCase()}. This product
+                    has been carefully designed and manufactured to meet the highest standards of
+                    quality and durability.
                   </p>
                   <p className="mt-4">
-                    Whether you&apos;re using it for everyday activities or special occasions, you can
-                    trust that this product will deliver exceptional performance and style.
+                    Whether you&apos;re using it for everyday activities or special occasions, you
+                    can trust that this product will deliver exceptional performance and style.
                   </p>
                 </div>
               </div>

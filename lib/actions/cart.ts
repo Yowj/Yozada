@@ -3,14 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
-
-
-
-/**
- * Add item to cart or increment quantity if already exists
- * Validates stock availability before adding
- */
-export async function addToCart(productId: number, quantity: number = 1) {
+export async function addToCart(productId: string, quantity: number = 1) {
   const supabase = await createClient();
 
   // Get current user
@@ -93,9 +86,6 @@ export async function addToCart(productId: number, quantity: number = 1) {
   return { success: true, data, message: "Added to cart!" };
 }
 
-/**
- * Remove item from cart completely
- */
 export async function removeFromCart(cartItemId: number) {
   const supabase = await createClient();
 
@@ -124,10 +114,6 @@ export async function removeFromCart(cartItemId: number) {
   return { success: true, message: "Item removed from cart" };
 }
 
-/**
- * Update quantity of a cart item
- * Validates stock availability
- */
 export async function updateCartItemQuantity(cartItemId: number, quantity: number) {
   const supabase = await createClient();
 
@@ -186,9 +172,6 @@ export async function updateCartItemQuantity(cartItemId: number, quantity: numbe
   return { success: true, data, message: "Quantity updated" };
 }
 
-/**
- * Clear all items from cart
- */
 export async function clearCart() {
   const supabase = await createClient();
 
@@ -207,13 +190,9 @@ export async function clearCart() {
     return { success: false, error: error.message };
   }
 
-
   return { success: true, message: "Cart cleared" };
 }
 
-/**
- * Get cart item by product ID for current user
- */
 export async function getCartItemByProduct(productId: number) {
   const supabase = await createClient();
 

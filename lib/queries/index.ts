@@ -11,5 +11,4 @@ export {
   getCartItems,
   getCartItemCount,
   getCartTotal,
-  getCartTotalFormatted,
 } from './cart'

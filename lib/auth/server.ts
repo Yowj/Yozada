@@ -1,14 +1,16 @@
-import { createClient } from '@/lib/supabase/server'
-import type { User } from '@supabase/supabase-js'
+import { createClient } from "@/lib/supabase/server";
+import type { User } from "@supabase/supabase-js";
 
 /**
  * Get the current authenticated user
  * Returns null if not authenticated
  */
 export async function getUser(): Promise<User | null> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  return user
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  return user;
 }
 
 /**
@@ -16,25 +18,27 @@ export async function getUser(): Promise<User | null> {
  * Returns false if not authenticated or not admin
  */
 export async function isAdmin(): Promise<boolean> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
-    return false
+    return false;
   }
 
   const { data, error } = await supabase
-    .from('users')
-    .select('is_admin')
-    .eq('id', user.id)
-    .maybeSingle()
+    .from("users")
+    .select("is_admin")
+    .eq("id", user.id)
+    .maybeSingle();
 
   if (error) {
-    console.error('Error checking admin status:', error)
-    return false
+    console.error("Error checking admin status:", error);
+    return false;
   }
 
-  return data?.is_admin ?? false
+  return data?.is_admin ?? false;
 }
 
 /**
@@ -42,10 +46,10 @@ export async function isAdmin(): Promise<boolean> {
  * Use in server actions that require admin permissions
  */
 export async function requireAdmin(): Promise<void> {
-  const admin = await isAdmin()
+  const admin = await isAdmin();
 
   if (!admin) {
-    throw new Error('Unauthorized: Admin access required')
+    throw new Error("Unauthorized: Admin access required");
   }
 }
 
@@ -54,27 +58,29 @@ export async function requireAdmin(): Promise<void> {
  * Returns null if not authenticated or not admin
  */
 export async function getAdminUser(): Promise<User | null> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
-    return null
+    return null;
   }
 
   const { data, error } = await supabase
-    .from('users')
-    .select('is_admin')
-    .eq('id', user.id)
-    .maybeSingle()
+    .from("users")
+    .select("is_admin")
+    .eq("id", user.id)
+    .maybeSingle();
 
   if (error) {
-    console.error('Error fetching admin user:', error)
-    return null
+    console.error("Error fetching admin user:", error);
+    return null;
   }
 
   if (!data?.is_admin) {
-    return null
+    return null;
   }
 
-  return user
+  return user;
 }

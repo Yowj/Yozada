@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@/ui/sonner";
 import { CartProvider } from "@/lib/contexts/cart-context";
 import "./globals.css";
 
@@ -10,7 +10,7 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Yozada - Premium Products for Modern Living",
+  title: "Yozada",
   description: "Discover quality products curated for you. Free shipping on orders over $50.",
 };
 

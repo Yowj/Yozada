@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { isAdmin } from "@/lib/auth/server";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/ui/button";
 import { Home, Package } from "lucide-react";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
