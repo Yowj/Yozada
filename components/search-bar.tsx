@@ -5,15 +5,15 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Search, X, Loader2 } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Input } from "@/ui/input";
+import { Button } from "@/ui/button";
+import { Badge } from "@/ui/badge";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "@/ui/dialog";
 import { createClient } from "@/lib/supabase/client";
 import type { Product } from "@/lib/types";
 
@@ -88,7 +88,7 @@ export function SearchBar({
     setResults([]);
   };
 
-  const handleProductClick = (productId: number) => {
+  const handleProductClick = (productId: string) => {
     handleClose();
     router.push(`/product/${productId}`);
   };
