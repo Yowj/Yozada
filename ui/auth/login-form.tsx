@@ -22,16 +22,12 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
     setError(null);
 
     try {
-      // Call server action - it handles revalidatePath and redirect automatically
       const result = await loginUser(email, password);
 
-      // Only handle errors - success case redirects automatically
       if (result?.error) {
         setError(result.error);
         setIsLoading(false);
       }
-      // If successful, redirect() in server action will navigate
-      // No need for window.location.href!
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
       setIsLoading(false);
@@ -39,12 +35,12 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
   };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn("flex flex-col gap-4", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
           <form className="p-6 md:p-8" onSubmit={handleLogin}>
             <FieldGroup>
-              <div className="flex flex-col items-center gap-2 text-center">
+              <div className="flex flex-col items-center gap-1 text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
                 <p className="text-muted-foreground text-balance">Login to your Yozada account</p>
                 <div className="text-red-600">{error}</div>
@@ -55,7 +51,6 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />

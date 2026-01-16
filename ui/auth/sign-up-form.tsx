@@ -9,7 +9,7 @@ import { Label } from "@/ui/label";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { EyeClosedIcon, Eye } from "lucide-react";
+import { EyeClosedIcon, Eye, Loader2Icon } from "lucide-react";
 
 export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
   const [email, setEmail] = useState("");
@@ -115,7 +115,7 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Creating an account..." : "Sign up"}
+                {isLoading ? <Loader2Icon className="mr-2 h-4 w-4 animate-spin" /> : "Sign up"}
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">

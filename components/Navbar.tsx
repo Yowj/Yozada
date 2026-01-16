@@ -67,9 +67,7 @@ export function Navbar() {
     <motion.nav
       className={cn(
         "sticky top-0 z-50 w-full border-b transition-all duration-300",
-        hasScrolled
-          ? "bg-background/90 backdrop-blur-lg"
-          : "bg-background/95 backdrop-blur-sm"
+        hasScrolled ? "bg-background/90 backdrop-blur-lg" : "bg-background/95 backdrop-blur-sm"
       )}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -89,11 +87,9 @@ export function Navbar() {
                 <SheetContent side="left" className="w-80 p-0">
                   <div className="flex h-full flex-col">
                     <SheetHeader className="border-b p-6">
-                      <SheetTitle className="text-lg font-semibold">
-                        Menu
-                      </SheetTitle>
+                      <SheetTitle className="text-lg font-semibold">Menu</SheetTitle>
                     </SheetHeader>
-                    
+
                     <div className="flex-1 p-6">
                       <div className="space-y-1">
                         {mobileNavItems.map((item) => (
@@ -103,9 +99,7 @@ export function Navbar() {
                             onClick={() => setIsOpen(false)}
                             className={cn(
                               "block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                              item.isAdmin
-                                ? "text-primary hover:bg-primary/10"
-                                : "hover:bg-accent"
+                              item.isAdmin ? "text-primary hover:bg-primary/10" : "hover:bg-accent"
                             )}
                           >
                             {item.label}
@@ -117,17 +111,11 @@ export function Navbar() {
                 </SheetContent>
               </Sheet>
             )}
-            
+
             {/* Mobile Logo */}
             <Link href="/" className="lg:hidden">
               <div className="flex items-center gap-2">
-                <Image 
-                  src="/logo.png" 
-                  alt="Yozada" 
-                  width={28} 
-                  height={28}
-                  className="rounded"
-                />
+                <Image src="/logo.png" alt="Yozada" width={28} height={28} className="rounded" />
                 <span className="text-lg font-semibold">Yozada</span>
               </div>
             </Link>
@@ -136,13 +124,7 @@ export function Navbar() {
           {/* Desktop Logo & Navigation */}
           <div className="hidden lg:flex lg:items-center lg:gap-8">
             <Link href="/" className="flex items-center gap-2">
-              <Image 
-                src="/logo.png" 
-                alt="Yozada" 
-                width={28} 
-                height={28}
-                className="rounded"
-              />
+              <Image src="/logo.png" alt="Yozada" width={28} height={28} className="rounded" />
               <span className="text-lg font-semibold">Yozada</span>
             </Link>
 
@@ -163,11 +145,7 @@ export function Navbar() {
           <div className="hidden flex-1 max-w-md lg:block">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search products..."
-                className="w-full pl-10"
-              />
+              <Input type="search" placeholder="Search products..." className="w-full pl-10" />
             </div>
           </div>
 
@@ -181,11 +159,7 @@ export function Navbar() {
               onClick={() => setIsSearchOpen(!isSearchOpen)}
             >
               <AnimatePresence mode="wait">
-                {isSearchOpen ? (
-                  <X className="h-4 w-4" />
-                ) : (
-                  <Search className="h-4 w-4" />
-                )}
+                {isSearchOpen ? <X className="h-4 w-4" /> : <Search className="h-4 w-4" />}
               </AnimatePresence>
             </Button>
 
@@ -194,7 +168,7 @@ export function Navbar() {
               <Button variant="ghost" size="icon" className="h-9 w-9">
                 <Search className="h-4 w-4" />
               </Button>
-              
+
               {isAdmin && (
                 <Link href="/admin">
                   <Button variant="ghost" size="sm" className="h-9 text-sm">
@@ -202,7 +176,7 @@ export function Navbar() {
                   </Button>
                 </Link>
               )}
-              
+
               <ThemeSwitcher />
               <CartSidebar />
               <AuthNav />
@@ -212,6 +186,7 @@ export function Navbar() {
             <div className="flex items-center gap-1 lg:hidden">
               <CartSidebar />
               <ThemeSwitcher />
+              <AuthNav />
             </div>
           </div>
         </div>

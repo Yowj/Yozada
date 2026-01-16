@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
+import { LoaderIcon, Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 import { Button } from "@/ui/button";
 import { Badge } from "@/ui/badge";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/ui/sheet";
@@ -13,7 +13,7 @@ import { useCart } from "@/lib/contexts/cart-context";
 
 export function CartSidebar() {
   const [open, setOpen] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState<number | null>(null);
+  const [isLoading, setIsLoading] = React.useState<boolean | number | null>(null);
   const { cartItems, refreshCart } = useCart();
 
   async function handleUpdateQuantity(cartItemId: number, newQuantity: number) {
@@ -151,8 +151,8 @@ export function CartSidebar() {
 
               <div className="space-y-2">
                 <Button className="w-full" size="lg" asChild>
-                  <Link href="/checkout" onClick={() => setOpen(false)}>
-                    Proceed to Checkout
+                  <Link href="/checkout" onClick={() => setIsLoading(true)}>
+                    {isLoading ? <LoaderIcon className="mr-2 h-4 w-4 animate-spin" /> : "Checkout"}
                   </Link>
                 </Button>
               </div>
