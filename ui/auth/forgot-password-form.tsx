@@ -3,11 +3,9 @@
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/ui/card";
 import { Input } from "@/ui/input";
-import { Label } from "@/ui/label";
-import Link from "next/link";
 import { useState } from "react";
+import { LoaderCircle, Mail } from "lucide-react";
 
 export function ForgotPasswordForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
   const [email, setEmail] = useState("");
@@ -39,58 +37,94 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
     }
   };
 
+  if (success) {
+    return (
+      <div className={cn("w-full", className)} {...props}>
+        {/* Header Section */}
+        <div className="mb-10 text-center">
+          <div className="mx-auto mb-6 flex size-16 items-center justify-center rounded-full bg-primary/10">
+            <Mail className="size-8 text-primary" />
+          </div>
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground">Check your email</h1>
+          <p className="mt-2 text-sm text-muted-foreground">Password reset instructions sent</p>
+        </div>
+
+        {/* Success Message */}
+        <div className="rounded-lg bg-muted px-4 py-6 text-center">
+          <p className="text-sm text-muted-foreground">
+            If you registered using your email and password, you will receive a password reset email.
+          </p>
+        </div>
+
+        {/* Back to Login Link */}
+        <p className="mt-10 text-center text-sm text-muted-foreground">
+          Remember your password?{" "}
+          <a
+            href="login"
+            className="font-medium text-foreground underline-offset-4 transition-colors hover:underline"
+          >
+            Back to sign in
+          </a>
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      {success ? (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl">Check Your Email</CardTitle>
-            <CardDescription>Password reset instructions sent</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">
-              If you registered using your email and password, you will receive a password reset
-              email.
-            </p>
-          </CardContent>
-        </Card>
-      ) : (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl">Reset Your Password</CardTitle>
-            <CardDescription>
-              Type in your email and we&apos;ll send you a link to reset your password
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleForgotPassword}>
-              <div className="flex flex-col gap-6">
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="m@example.com"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                {error && <p className="text-sm text-red-500">{error}</p>}
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "Sending..." : "Send reset email"}
-                </Button>
-              </div>
-              <div className="mt-4 text-center text-sm">
-                Already have an account?{" "}
-                <Link href="/auth/login" className="underline underline-offset-4">
-                  Login
-                </Link>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
+    <div className={cn("w-full", className)} {...props}>
+      {/* Header Section */}
+      <div className="mb-10 text-center">
+        <h1 className="text-3xl font-semibold tracking-tight text-foreground">Reset your password</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Enter your email and we&apos;ll send you a reset link
+        </p>
+      </div>
+
+      {/* Error Message */}
+      {error && (
+        <div className="mb-6 rounded-lg bg-destructive/10 px-4 py-3 text-center text-sm text-destructive">
+          {error}
+        </div>
       )}
+
+      {/* Forgot Password Form */}
+      <form onSubmit={handleForgotPassword} className="space-y-6">
+        {/* Email Field */}
+        <div className="space-y-2">
+          <label htmlFor="email" className="text-sm font-medium text-foreground">
+            Email
+          </label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="h-12 rounded-lg border-input bg-background px-4 text-base transition-all duration-200 placeholder:text-muted-foreground/60 focus:ring-2 focus:ring-primary/20"
+          />
+        </div>
+
+        {/* Submit Button */}
+        <Button
+          type="submit"
+          disabled={isLoading}
+          className="mt-8 h-12 w-full rounded-lg text-base font-medium transition-all duration-200 hover:opacity-90"
+        >
+          {isLoading ? <LoaderCircle className="size-5 animate-spin" /> : "Send reset link"}
+        </Button>
+      </form>
+
+      {/* Back to Login Link */}
+      <p className="mt-10 text-center text-sm text-muted-foreground">
+        Remember your password?{" "}
+        <a
+          href="login"
+          className="font-medium text-foreground underline-offset-4 transition-colors hover:underline"
+        >
+          Back to sign in
+        </a>
+      </p>
     </div>
   );
 }
