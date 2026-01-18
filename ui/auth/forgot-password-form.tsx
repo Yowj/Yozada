@@ -1,11 +1,11 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { useState } from "react";
 import { LoaderCircle, Mail } from "lucide-react";
+import { forgotPassword } from "@/lib/actions/auth";
 
 export function ForgotPasswordForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
   const [email, setEmail] = useState("");
@@ -15,26 +15,18 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
 
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
-    const supabase = createClient();
     setIsLoading(true);
     setError(null);
 
-    try {
-      // The url which will be included in the email. This URL needs to be configured in your redirect URLs in the Supabase dashboard at https://supabase.com/dashboard/project/_/auth/url-configuration
-      const baseUrl =
-        process.env.NEXT_PUBLIC_SITE_URL ||
-        (typeof window !== "undefined" ? window.location.origin : "http://localhost:3000");
+    const result = await forgotPassword(email);
 
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${baseUrl}/auth/update-password`,
-      });
-      if (error) throw error;
+    if (result?.error) {
+      setError(result.error);
+    } else if (result?.success) {
       setSuccess(true);
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred");
-    } finally {
-      setIsLoading(false);
     }
+
+    setIsLoading(false);
   };
 
   if (success) {

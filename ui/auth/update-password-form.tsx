@@ -1,12 +1,11 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { LoaderCircle, Eye, EyeOff } from "lucide-react";
+import { updatePassword } from "@/lib/actions/auth";
 
 export function UpdatePasswordForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
   const [password, setPassword] = useState("");
@@ -14,11 +13,9 @@ export function UpdatePasswordForm({ className, ...props }: React.ComponentProps
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
 
   const handleUpdatePassword = async (e: React.FormEvent) => {
     e.preventDefault();
-    const supabase = createClient();
     setIsLoading(true);
     setError(null);
 
@@ -28,14 +25,10 @@ export function UpdatePasswordForm({ className, ...props }: React.ComponentProps
       return;
     }
 
-    try {
-      const { error } = await supabase.auth.updateUser({ password });
-      if (error) throw error;
-      // Update this route to redirect to an authenticated route. The user already has an active session.
-      router.push("/");
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred");
-    } finally {
+    const result = await updatePassword(password);
+
+    if (result?.error) {
+      setError(result.error);
       setIsLoading(false);
     }
   };

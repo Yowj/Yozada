@@ -18,15 +18,10 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
     setIsLoading(true);
     setError(null);
 
-    try {
-      const result = await loginUser(email, password);
+    const result = await loginUser(email, password);
 
-      if (result?.error) {
-        setError(result.error);
-        setIsLoading(false);
-      }
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred");
+    if (result?.error) {
+      setError(result.error);
       setIsLoading(false);
     }
   };

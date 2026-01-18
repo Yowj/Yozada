@@ -1,12 +1,11 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { LoaderCircle, Eye, EyeOff } from "lucide-react";
+import { signupUser } from "@/lib/actions/auth";
 
 export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
   const [email, setEmail] = useState("");
@@ -16,11 +15,8 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const router = useRouter();
-
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    const supabase = createClient();
     setIsLoading(true);
     setError(null);
 
@@ -30,23 +26,10 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
       return;
     }
 
-    try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-      if (error) throw error;
+    const result = await signupUser(email, password);
 
-      if (data.user) {
-        const { error: insertError } = await supabase.from("users").insert({
-          id: data.user.id,
-        });
-        if (insertError) throw insertError;
-        router.push("/");
-      }
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "An error occurred");
-    } finally {
+    if (result?.error) {
+      setError(result.error);
       setIsLoading(false);
     }
   };
