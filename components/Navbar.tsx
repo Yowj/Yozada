@@ -52,12 +52,12 @@ export function Navbar() {
 
   // Minimal navigation items
   const navItems = [
-    { href: "/products", label: "Shop" },
+    { href: "/shop", label: "Shop" },
     { href: "/collections", label: "Collections" },
   ];
 
   const mobileNavItems = [
-    { href: "/products", label: "All Products" },
+    { href: "/shop", label: "Shop All" },
     { href: "/collections", label: "Collections" },
     { href: "/about", label: "About" },
     ...(isAdmin ? [{ href: "/admin", label: "Admin", isAdmin: true }] : []),

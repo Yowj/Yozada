@@ -5,6 +5,10 @@ export {
   getProducts,
   getFeaturedProducts,
   getProductById,
+  getProductsByCategory,
+  getSaleProducts,
+  getNewArrivals,
+  getBestSellers,
 } from './products'
 
 export {

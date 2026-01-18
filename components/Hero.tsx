@@ -100,7 +100,7 @@ export function HeroSection({ featuredProducts }: HeroSectionProps) {
               <div className="flex flex-col gap-4 sm:flex-row">
                 <Magnetic strength={0.15}>
                   <Button size="lg" asChild className="group relative overflow-hidden">
-                    <Link href="/products">
+                    <Link href="/shop">
                       <span className="relative z-10 flex items-center">
                         Shop Collection
                         <motion.span

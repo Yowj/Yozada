@@ -31,7 +31,7 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
             </p>
           </div>
           <Button variant="ghost" asChild className="hidden sm:flex group">
-            <Link href="/products" className="gap-2">
+            <Link href="/shop" className="gap-2">
               Explore More
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
@@ -139,7 +139,7 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
         {/* Mobile CTA */}
         <div className="mt-8 flex justify-center sm:hidden">
           <Button variant="outline" size="lg" asChild className="group w-full max-w-xs">
-            <Link href="/products" className="gap-2">
+            <Link href="/shop" className="gap-2">
               View All Products
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>

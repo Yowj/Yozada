@@ -68,7 +68,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 Home
               </Link>
               <span>/</span>
-              <Link href="/products" className="hover:text-foreground transition-colors">
+              <Link href="/shop" className="hover:text-foreground transition-colors">
                 Products
               </Link>
               <span>/</span>
@@ -265,7 +265,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <div className="mb-6 flex items-center justify-between">
                   <h2 className="text-2xl font-bold tracking-tight">You May Also Like</h2>
                   <Button variant="outline" asChild className="hidden sm:flex">
-                    <Link href="/products">View All</Link>
+                    <Link href="/shop">View All</Link>
                   </Button>
                 </div>
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:gap-6">
