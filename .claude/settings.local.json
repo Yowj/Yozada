@@ -10,7 +10,10 @@
       "Bash(npx tsc:*)",
       "Bash(npm run build:*)",
       "Bash(find:*)",
-      "WebFetch(domain:www.embla-carousel.com)"
+      "WebFetch(domain:www.embla-carousel.com)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nUpdated/ Auth forms styling to match login form\n\n- Restyled sign-up, forgot-password, update-password forms\n- Updated error page with consistent design\n- Added social login buttons, styled inputs, and improved UX\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []
