@@ -90,7 +90,11 @@ export async function updatePassword(password: string) {
 export async function logoutUser() {
   const supabase = await createClient();
 
-  await supabase.auth.signOut();
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    return { error: error.message };
+  }
 
   // Revalidate the entire layout to refresh auth state everywhere
   revalidatePath("/", "layout");

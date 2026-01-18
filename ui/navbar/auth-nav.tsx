@@ -10,13 +10,14 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "../dropdown-menu";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, Loader2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { logoutUser } from "@/lib/actions/auth";
 
 export function AuthNav() {
   const [user, setUser] = useState<{ email: string } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
     const supabase = createClient();
@@ -60,6 +61,11 @@ export function AuthNav() {
     return <div className="h-10 w-20 animate-pulse rounded-md bg-muted" />;
   }
 
+  const handleLogout = () => {
+    setIsLoggingOut(true);
+    logoutUser();
+  };
+
   if (user) {
     return (
       <>
@@ -82,12 +88,21 @@ export function AuthNav() {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onSelect={async () => {
-                await logoutUser();
+                handleLogout();
               }}
               className="flex items-center gap-2 text-destructive focus:text-destructive"
             >
-              <LogOut className="h-4 w-4" />
-              Sign out
+              {isLoggingOut ? (
+                <span className="flex items-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>Logging out</span>
+                </span>
+              ) : (
+                <span className="flex items-center gap-2">
+                  <LogOut className="h-4 w-4" />
+                  <span>Log out</span>
+                </span>
+              )}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
