@@ -69,12 +69,14 @@ function TestimonialCard({
   avatar,
   rating,
   text,
+  className,
 }: {
   name: string;
   role: string;
   avatar: string;
   rating: number;
   text: string;
+  className?: string;
 }) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -86,9 +88,10 @@ function TestimonialCard({
     >
       <Card
         className={cn(
-          "relative w-80 h-[300px] cursor-pointer overflow-hidden p-4 mx-1",
+          "relative cursor-pointer overflow-hidden p-4 mx-1",
           "transition-all duration-500 border bg-card",
-          "hover:border-blue-500/50"
+          "hover:border-blue-500/50",
+          className,
         )}
       >
         {/* Decorative quote icon with animation */}
@@ -104,7 +107,7 @@ function TestimonialCard({
         </motion.div>
 
         {/* Avatar and info */}
-        <div className="mb-4 flex items-center gap-3">
+        <div className="flex items-center gap-3">
           <motion.div
             className="relative"
             animate={{ scale: isHovered ? 1.1 : 1 }}
@@ -140,7 +143,7 @@ function TestimonialCard({
         </div>
 
         {/* Rating stars with animation */}
-        <div className="mb-3 flex gap-0.5">
+        <div className=" flex gap-0.5">
           {[...Array(rating)].map((_, i) => (
             <motion.div
               key={i}
@@ -163,7 +166,7 @@ function TestimonialCard({
 
         {/* Hover reveal: helpful badge */}
         <motion.div
-          className="mt-4 flex items-center gap-2 text-xs text-muted-foreground"
+          className=" flex items-center gap-2 text-xs text-muted-foreground"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 10 }}
           transition={{ duration: 0.3 }}
@@ -231,19 +234,36 @@ export function TestimonialsSection() {
         </FadeIn>
       </div>
 
-      {/* Testimonials marquee */}
-      <div className="relative flex w-full flex-col items-center justify-center gap-4 overflow-hidden">
+      {/* Testimonials marquee - LG*/}
+      <div className="relative hidden w-full flex-col items-center justify-center overflow-hidden md:flex">
         <Marquee pauseOnHover className="[--duration:50s]">
           {firstRow.map((testimonial) => (
-            <TestimonialCard key={testimonial.id} {...testimonial} />
+            <TestimonialCard key={testimonial.id} {...testimonial} className="w-80 h-[200px]" />
           ))}
         </Marquee>
         <Marquee reverse pauseOnHover className="[--duration:50s]">
           {secondRow.map((testimonial) => (
-            <TestimonialCard key={testimonial.id} {...testimonial} />
+            <TestimonialCard key={testimonial.id} {...testimonial} className="w-80 h-[200px]" />
           ))}
         </Marquee>
 
+        {/* Gradient fade edges */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/6 bg-gradient-to-r from-background to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/6 bg-gradient-to-l from-background to-transparent" />
+      </div>
+
+      {/* Testimonials marquee - SM */}
+      <div className="relative flex w-full flex-col items-center justify-center gap-4 overflow-hidden md:hidden">
+        <Marquee pauseOnHover className="[--duration:50s]">
+          {firstRow.map((testimonial) => (
+            <TestimonialCard key={testimonial.id} {...testimonial} className="w-56 h-[220px]" />
+          ))}
+        </Marquee>
+        <Marquee reverse pauseOnHover className="[--duration:50s]">
+          {secondRow.map((testimonial) => (
+            <TestimonialCard key={testimonial.id} {...testimonial} className="w-56 h-[210px]" />
+          ))}
+        </Marquee>
         {/* Gradient fade edges */}
         <div className="pointer-events-none absolute inset-y-0 left-0 w-1/6 bg-gradient-to-r from-background to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-1/6 bg-gradient-to-l from-background to-transparent" />

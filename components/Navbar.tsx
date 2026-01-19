@@ -117,7 +117,6 @@ export function Navbar() {
             <Link href="/" className="lg:hidden">
               <div className="flex items-center gap-2">
                 <Image src="/logo.png" alt="Yozada" width={28} height={28} className="rounded" />
-                <span className="text-lg font-semibold">Yozada</span>
               </div>
             </Link>
           </div>

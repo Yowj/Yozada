@@ -98,169 +98,253 @@ const paymentMethods = [
   { name: "Apple Pay", icon: ApplePayIcon },
 ];
 
+
 export function Footer() {
   return (
     <footer className="w-full border-t bg-muted/30">
-      <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-12">
-          {/* Brand Section */}
-          <div className="lg:col-span-4">
-            <Link href="/" className="mb-4 flex items-center gap-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg border bg-background">
-                <Image src="/logo.png" alt="Yozada" width={32} height={32} />
-              </div>
-              <span className="text-xl font-bold">Yozada</span>
-            </Link>
-            <p className="mb-6 max-w-xs text-sm text-muted-foreground">
-              Your trusted destination for quality products. Discover unique items curated just for
-              you, delivered with care.
-            </p>
+      {/* Desktop Footer */}
+      <div className="hidden md:block">
+        <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-12">
+            {/* Brand Section */}
+            <div className="lg:col-span-4">
+              <Link href="/" className="mb-4 flex items-center gap-2">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg border bg-background">
+                  <Image src="/logo.png" alt="Yozada" width={32} height={32} />
+                </div>
+                <span className="text-xl font-bold">Yozada</span>
+              </Link>
+              <p className="mb-6 max-w-xs text-sm text-muted-foreground">
+                Your trusted destination for quality products. Discover unique items curated just
+                for you, delivered with care.
+              </p>
 
-            {/* Social Links */}
-            <div className="mb-6">
-              <p className="mb-3 text-sm font-semibold">Follow Us</p>
-              <div className="flex gap-3">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.name}
-                    href={social.href}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border bg-background text-muted-foreground transition-colors hover:border-primary hover:text-primary"
-                    aria-label={social.name}
-                  >
-                    <social.icon className="h-5 w-5" />
+              {/* Social Links */}
+              <div className="mb-6">
+                <p className="mb-3 text-sm font-semibold">Follow Us</p>
+                <div className="flex gap-3">
+                  {socialLinks.map((social) => (
+                    <a
+                      key={social.name}
+                      href={social.href}
+                      className="flex h-10 w-10 items-center justify-center rounded-full border bg-background text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+                      aria-label={social.name}
+                    >
+                      <social.icon className="h-5 w-5" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Newsletter */}
+              <div>
+                <p className="mb-3 text-sm font-semibold">Subscribe to our newsletter</p>
+                <div className="flex gap-2">
+                  <Input
+                    type="email"
+                    placeholder="Enter your email"
+                    className="max-w-[220px] bg-background"
+                  />
+                  <Button>Subscribe</Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Shop Links */}
+            <div className="lg:col-span-2">
+              <h3 className="mb-4 text-sm font-semibold">Shop</h3>
+              <ul className="space-y-3">
+                {footerLinks.shop.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Company Links */}
+            <div className="lg:col-span-2">
+              <h3 className="mb-4 text-sm font-semibold">Company</h3>
+              <ul className="space-y-3">
+                {footerLinks.company.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Support Links */}
+            <div className="lg:col-span-2">
+              <h3 className="mb-4 text-sm font-semibold">Support</h3>
+              <ul className="space-y-3">
+                {footerLinks.support.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Contact Info */}
+            <div className="lg:col-span-2">
+              <h3 className="mb-4 text-sm font-semibold">Contact</h3>
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li>
+                  <a href="mailto:support@yozada.com" className="hover:text-foreground">
+                    support@yozada.com
                   </a>
+                </li>
+                <li>
+                  <a href="tel:+1234567890" className="hover:text-foreground">
+                    +1 (234) 567-890
+                  </a>
+                </li>
+                <li>Mon - Fri: 9am - 6pm EST</li>
+              </ul>
+            </div>
+          </div>
+
+          <Separator className="my-8" />
+
+          {/* Bottom Bar */}
+          <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+            {/* Copyright & Legal Links */}
+            <div className="flex flex-col items-center gap-4 text-center md:flex-row md:text-left">
+              <p className="text-sm text-muted-foreground">
+                © {new Date().getFullYear()} Yozada, Inc. All rights reserved.
+              </p>
+              <div className="flex gap-4">
+                <Link
+                  href="/terms"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Terms
+                </Link>
+                <Link
+                  href="/privacy"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Privacy
+                </Link>
+                <Link
+                  href="/cookies"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Cookies
+                </Link>
+              </div>
+            </div>
+
+            {/* Payment Methods */}
+            <div className="flex items-center gap-2">
+              <span className="mr-2 text-xs text-muted-foreground">We accept:</span>
+              <div className="flex gap-2">
+                {paymentMethods.map((payment) => (
+                  <div
+                    key={payment.name}
+                    className="flex h-8 w-12 items-center justify-center rounded border bg-background"
+                    title={payment.name}
+                  >
+                    <payment.icon className="h-5 w-8 text-muted-foreground" />
+                  </div>
                 ))}
               </div>
             </div>
-
-            {/* Newsletter */}
-            <div>
-              <p className="mb-3 text-sm font-semibold">Subscribe to our newsletter</p>
-              <div className="flex gap-2">
-                <Input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="max-w-[220px] bg-background"
-                />
-                <Button>Subscribe</Button>
-              </div>
-            </div>
-          </div>
-
-          {/* Shop Links */}
-          <div className="lg:col-span-2">
-            <h3 className="mb-4 text-sm font-semibold">Shop</h3>
-            <ul className="space-y-3">
-              {footerLinks.shop.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company Links */}
-          <div className="lg:col-span-2">
-            <h3 className="mb-4 text-sm font-semibold">Company</h3>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Support Links */}
-          <div className="lg:col-span-2">
-            <h3 className="mb-4 text-sm font-semibold">Support</h3>
-            <ul className="space-y-3">
-              {footerLinks.support.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div className="lg:col-span-2">
-            <h3 className="mb-4 text-sm font-semibold">Contact</h3>
-            <ul className="space-y-3 text-sm text-muted-foreground">
-              <li>
-                <a href="mailto:support@yozada.com" className="hover:text-foreground">
-                  support@yozada.com
-                </a>
-              </li>
-              <li>
-                <a href="tel:+1234567890" className="hover:text-foreground">
-                  +1 (234) 567-890
-                </a>
-              </li>
-              <li>Mon - Fri: 9am - 6pm EST</li>
-            </ul>
           </div>
         </div>
+      </div>
 
-        <Separator className="my-8" />
-
-        {/* Bottom Bar */}
-        <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
-          {/* Copyright & Legal Links */}
-          <div className="flex flex-col items-center gap-4 text-center md:flex-row md:text-left">
-            <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} Yozada, Inc. All rights reserved.
-            </p>
-            <div className="flex gap-4">
-              <Link
-                href="/terms"
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Terms
-              </Link>
-              <Link
-                href="/privacy"
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Privacy
-              </Link>
-              <Link
-                href="/cookies"
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Cookies
-              </Link>
+      {/* Mobile Footer - Minimalist Design */}
+      <div className="md:hidden">
+        <div className="mx-auto max-w-7xl px-4 py-8">
+          {/* Brand + Social Row */}
+          <div className="flex items-center justify-between mb-6">
+            <Link href="/" className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg border bg-background">
+                <Image src="/logo.png" alt="Yozada" width={24} height={24} />
+              </div>
+              <span className="text-lg font-bold">Yozada</span>
+            </Link>
+            <div className="flex gap-2">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.href}
+                  className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground"
+                  aria-label={social.name}
+                >
+                  <social.icon className="h-4 w-4" />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Payment Methods */}
-          <div className="flex items-center gap-2">
-            <span className="mr-2 text-xs text-muted-foreground">We accept:</span>
-            <div className="flex gap-2">
+          {/* Quick Links - Compact Grid */}
+          <div className="grid grid-cols-2 gap-x-8 gap-y-2 mb-6">
+            <Link href="/products" className="text-sm text-muted-foreground hover:text-foreground">
+              Shop
+            </Link>
+            <Link href="/support/faq" className="text-sm text-muted-foreground hover:text-foreground">
+              FAQ
+            </Link>
+            <Link href="/about" className="text-sm text-muted-foreground hover:text-foreground">
+              About
+            </Link>
+            <Link href="/support/shipping" className="text-sm text-muted-foreground hover:text-foreground">
+              Shipping
+            </Link>
+            <Link href="/support/contact" className="text-sm text-muted-foreground hover:text-foreground">
+              Contact
+            </Link>
+            <Link href="/support/returns" className="text-sm text-muted-foreground hover:text-foreground">
+              Returns
+            </Link>
+          </div>
+
+          <Separator className="my-6" />
+
+          {/* Bottom Row */}
+          <div className="flex flex-col gap-4">
+            {/* Payment Methods */}
+            <div className="flex items-center justify-center gap-2">
               {paymentMethods.map((payment) => (
                 <div
                   key={payment.name}
-                  className="flex h-8 w-12 items-center justify-center rounded border bg-background"
+                  className="flex h-6 w-10 items-center justify-center rounded border bg-background"
                   title={payment.name}
                 >
-                  <payment.icon className="h-5 w-8 text-muted-foreground" />
+                  <payment.icon className="h-4 w-6 text-muted-foreground" />
                 </div>
               ))}
+            </div>
+
+            {/* Legal + Copyright */}
+            <div className="flex items-center justify-center gap-3 text-xs text-muted-foreground">
+              <Link href="/terms" className="hover:text-foreground">
+                Terms
+              </Link>
+              <span>·</span>
+              <Link href="/privacy" className="hover:text-foreground">
+                Privacy
+              </Link>
+              <span>·</span>
+              <span>© {new Date().getFullYear()} Yozada</span>
             </div>
           </div>
         </div>
