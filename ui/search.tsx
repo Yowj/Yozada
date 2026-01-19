@@ -82,7 +82,7 @@ export function Search({ className }: { className?: string }) {
       {/* Search Results Dropdown */}
       {isOpen && filteredProducts.length > 0 && (
         <div className="absolute left-0 top-full z-50 mt-2 w-full overflow-hidden rounded-lg border border-border bg-background shadow-lg">
-          <ul className="max-h-80 overflow-y-auto py-2">
+          <ul className="max-h-96 overflow-y-auto py-2">
             {filteredProducts.map((product) => (
               <li key={product.id}>
                 <a

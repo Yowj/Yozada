@@ -2,11 +2,11 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, SearchCheckIcon, SearchIcon, X } from "lucide-react";
 import { Input } from "@/ui/input";
 import { Button } from "@/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/ui/sheet";
-import {Search} from "@/ui/search";
+import { Search } from "@/ui/search";
 import Image from "next/image";
 import { ThemeSwitcher } from "./theme-switcher";
 import { AuthNav } from "../ui/navbar/auth-nav";
@@ -155,20 +155,16 @@ export function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden h-9 w-9"
+              className="lg:hidden h-9 w-5"
               onClick={() => setIsSearchOpen(!isSearchOpen)}
             >
               <AnimatePresence mode="wait">
-                {isSearchOpen ? <X className="h-4 w-4" /> : <Search />}
+                {isSearchOpen ? <X className="h-4 w-4" /> : <SearchIcon className="h-4 w-4" />}
               </AnimatePresence>
             </Button>
 
             {/* Desktop Actions */}
             <div className="hidden items-center gap-1 lg:flex">
-              <Button variant="ghost" size="icon" className="h-9 w-9">
-                <Search />
-              </Button>
-
               {isAdmin && (
                 <Link href="/admin">
                   <Button variant="ghost" size="sm" className="h-9 text-sm">
@@ -202,13 +198,7 @@ export function Navbar() {
               transition={{ duration: 0.2 }}
             >
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  type="search"
-                  placeholder="Search products..."
-                  className="w-full pl-10"
-                  autoFocus
-                />
+                <Search />
               </div>
             </motion.div>
           )}
