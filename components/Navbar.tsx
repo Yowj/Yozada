@@ -2,10 +2,11 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Menu, Search, X, ShoppingBag, User } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Input } from "@/ui/input";
 import { Button } from "@/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/ui/sheet";
+import {Search} from "@/ui/search";
 import Image from "next/image";
 import { ThemeSwitcher } from "./theme-switcher";
 import { AuthNav } from "../ui/navbar/auth-nav";
@@ -67,7 +68,7 @@ export function Navbar() {
     <motion.nav
       className={cn(
         "sticky top-0 z-50 w-full border-b transition-all duration-300",
-        hasScrolled ? "bg-background/90 backdrop-blur-lg" : "bg-background/95 backdrop-blur-sm"
+        hasScrolled ? "bg-background/90 backdrop-blur-lg" : "bg-background/95 backdrop-blur-sm",
       )}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -99,7 +100,7 @@ export function Navbar() {
                             onClick={() => setIsOpen(false)}
                             className={cn(
                               "block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                              item.isAdmin ? "text-primary hover:bg-primary/10" : "hover:bg-accent"
+                              item.isAdmin ? "text-primary hover:bg-primary/10" : "hover:bg-accent",
                             )}
                           >
                             {item.label}
@@ -144,8 +145,7 @@ export function Navbar() {
           {/* Desktop Search */}
           <div className="hidden flex-1 max-w-md lg:block">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input type="search" placeholder="Search products..." className="w-full pl-10" />
+              <Search />
             </div>
           </div>
 
@@ -159,14 +159,14 @@ export function Navbar() {
               onClick={() => setIsSearchOpen(!isSearchOpen)}
             >
               <AnimatePresence mode="wait">
-                {isSearchOpen ? <X className="h-4 w-4" /> : <Search className="h-4 w-4" />}
+                {isSearchOpen ? <X className="h-4 w-4" /> : <Search />}
               </AnimatePresence>
             </Button>
 
             {/* Desktop Actions */}
             <div className="hidden items-center gap-1 lg:flex">
               <Button variant="ghost" size="icon" className="h-9 w-9">
-                <Search className="h-4 w-4" />
+                <Search />
               </Button>
 
               {isAdmin && (
