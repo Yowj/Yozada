@@ -4,242 +4,230 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/ui/button";
 import { Badge } from "@/ui/badge";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Product } from "@/lib/types";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
-import {
-  FadeIn,
-  AnimatedCounter,
-  BlurFade,
-  motion,
-  Magnetic,
-  Stagger,
-  StaggerItem,
-} from "@/ui/motion";
-import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 
 interface HeroSectionProps {
   featuredProducts: Product[];
 }
 
 export function HeroSection({ featuredProducts }: HeroSectionProps) {
-  const plugin = React.useRef(
-    Autoplay({
-      delay: 3500,
-      stopOnInteraction: false,
-      stopOnMouseEnter: true,
-      playOnInit: true
-    })
-  );
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const currentProduct = featuredProducts[currentIndex];
+
+  // Auto-advance carousel
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % featuredProducts.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [featuredProducts.length]);
+
+  const next = () => setCurrentIndex((prev) => (prev + 1) % featuredProducts.length);
+  const prev = () =>
+    setCurrentIndex((prev) => (prev - 1 + featuredProducts.length) % featuredProducts.length);
+
   return (
-    <section className="relative w-full overflow-hidden px-4 py-8 md:py-12">
-      {/* Animated background gradient */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+    <section className="relative h-screen min-h-[600px] max-h-[900px] w-full overflow-hidden bg-black">
+      {/* Full-Width Landscape Carousel */}
+      <AnimatePresence initial={false} mode="popLayout">
         <motion.div
-          className="absolute -right-1/4 -top-1/4 h-[600px] w-[600px] rounded-full bg-gradient-to-br from-primary/5 via-primary/10 to-transparent blur-3xl"
-          animate={{
-            scale: [1, 1.1, 1],
-            rotate: [0, 10, 0],
+          key={currentIndex}
+          initial={{ x: 1000 }}
+          animate={{ x: 0 }}
+          exit={{ x: -1000 }}
+          transition={{ 
+            duration: 0.6, 
+            ease: [0.22, 1, 0.36, 1]
           }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          className="absolute -bottom-1/4 -left-1/4 h-[500px] w-[500px] rounded-full bg-gradient-to-tr from-primary/5 via-primary/8 to-transparent blur-3xl"
-          animate={{
-            scale: [1, 1.15, 1],
-            rotate: [0, -10, 0],
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2,
-          }}
-        />
-      </div>
+          className="absolute inset-0"
+        >
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <Image
+              src={currentProduct.image}
+              alt={currentProduct.name}
+              fill
+              sizes="100vw"
+              quality={100}
+              className="object-cover"
+              priority
+            />
+            {/* Gradient Overlays */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+          </div>
 
-      <div className="relative mx-auto max-w-7xl">
-        <div className="grid gap-8 lg:grid-cols-5 lg:items-center lg:gap-12">
-          {/* Text Content */}
-          <div className="order-2 flex flex-col justify-center lg:order-1 lg:col-span-2">
+          {/* Content Container */}
+          <div className="relative h-full flex items-center">
+            <div className="w-full max-w-[1600px] mx-auto px-6 lg:px-12">
+              <div className="max-w-2xl">
+                {/* Badge */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.6 }}
+                >
+                  {currentProduct.badge && (
+                    <Badge className="mb-6 bg-white/10 backdrop-blur-md text-white border-white/20 hover:bg-white/20">
+                      {currentProduct.badge}
+                    </Badge>
+                  )}
+                </motion.div>
 
-            <FadeIn delay={0.2} direction="up" distance={30}>
-              <h1 className="mb-4 text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
-                <span className="block">Discover Premium</span>
-                <span className="relative block text-primary">
-                  Products
-                  <motion.span
-                    className="absolute -bottom-2 left-0 h-1 rounded-full bg-primary"
-                    initial={{ width: 0 }}
-                    animate={{ width: "60%" }}
-                    transition={{ delay: 0.8, duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
-                  />
-                </span>
-              </h1>
-            </FadeIn>
+                {/* Dynamic Headline */}
+                <motion.h1
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.7 }}
+                  className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-6 leading-[0.95]"
+                >
+                  {getHeadline(currentIndex)}
+                </motion.h1>
 
-            <FadeIn delay={0.4} direction="up" distance={20}>
-              <p className="mb-8 max-w-lg text-lg text-muted-foreground">
-                Explore our curated collection of high-quality products designed for modern living.
-                Elevate your everyday with exceptional craftsmanship.
-              </p>
-            </FadeIn>
+                {/* Product Name & Description */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.6 }}
+                  className="mb-8"
+                >
+                  <h2 className="text-2xl md:text-3xl font-semibold text-white mb-3">
+                    {currentProduct.name}
+                  </h2>
+                  <p className="text-lg text-white/80 max-w-xl">{getDescription(currentIndex)}</p>
+                </motion.div>
 
-            <FadeIn delay={0.5} direction="up" distance={20}>
-              <div className="flex flex-col gap-4 sm:flex-row">
-                <Magnetic strength={0.15}>
-                  <Button size="lg" asChild className="group relative overflow-hidden">
-                    <Link href="/shop">
-                      <span className="relative z-10 flex items-center">
-                        Shop Collection
-                        <motion.span
-                          className="ml-2"
-                          animate={{ x: [0, 4, 0] }}
-                          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                        >
-                          <ArrowRight className="h-4 w-4" />
-                        </motion.span>
-                      </span>
-                      <motion.div
-                        className="absolute inset-0 bg-primary/90"
-                        initial={{ x: "-100%" }}
-                        whileHover={{ x: 0 }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
-                      />
-                    </Link>
-                  </Button>
-                </Magnetic>
-                <Magnetic strength={0.15}>
+                {/* Price & CTA */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5, duration: 0.6 }}
+                  className="flex flex-wrap items-center gap-6"
+                >
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-5xl font-bold text-white">${currentProduct.price}</span>
+                    <span className="text-lg text-white/60 line-through">
+                      ${Math.floor(currentProduct.price * 1.3)}
+                    </span>
+                  </div>
+
                   <Button
                     size="lg"
-                    variant="outline"
+                    className="bg-white text-black hover:bg-white/90 text-base px-8 h-14"
                     asChild
-                    className="group backdrop-blur-sm transition-all duration-300 hover:bg-primary/5"
                   >
-                    <Link href="/about">
-                      <span className="relative">Learn More</span>
+                    <Link href={`/product/${currentProduct.id}`}>
+                      Shop Now
+                      <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
                   </Button>
-                </Magnetic>
+                </motion.div>
+
+                {/* Trust Indicators */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6, duration: 0.6 }}
+                  className="flex flex-wrap gap-8 mt-12 pt-8 border-t border-white/20"
+                >
+                  <div>
+                    <p className="text-2xl font-bold text-white">Free Shipping</p>
+                    <p className="text-sm text-white/60">On orders over $50</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-white">2-Day Delivery</p>
+                    <p className="text-sm text-white/60">Fast & reliable</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-white">4.9★</p>
+                    <p className="text-sm text-white/60">10K+ reviews</p>
+                  </div>
+                </motion.div>
               </div>
-            </FadeIn>
-
-            {/* Animated Stats */}
-            <FadeIn delay={0.7} direction="up" distance={20}>
-              <Stagger className="mt-12 flex gap-8 border-t pt-8" delay={0.8} staggerDelay={0.15}>
-                <StaggerItem>
-                  <motion.div
-                    className="group cursor-default"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <p className="text-3xl font-bold">
-                      <AnimatedCounter value={10} suffix="K+" duration={2} />
-                    </p>
-                    <p className="text-sm text-muted-foreground transition-colors group-hover:text-foreground">
-                      Happy Customers
-                    </p>
-                  </motion.div>
-                </StaggerItem>
-                <StaggerItem>
-                  <motion.div
-                    className="group cursor-default"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <p className="text-3xl font-bold">
-                      <AnimatedCounter value={500} suffix="+" duration={2.2} />
-                    </p>
-                    <p className="text-sm text-muted-foreground transition-colors group-hover:text-foreground">
-                      Products
-                    </p>
-                  </motion.div>
-                </StaggerItem>
-                <StaggerItem>
-                  <motion.div
-                    className="group cursor-default"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <p className="text-3xl font-bold">4.9</p>
-                    <p className="text-sm text-muted-foreground transition-colors group-hover:text-foreground">
-                      Average Rating
-                    </p>
-                  </motion.div>
-                </StaggerItem>
-              </Stagger>
-            </FadeIn>
+            </div>
           </div>
+        </motion.div>
+      </AnimatePresence>
 
-          {/* Featured Products Carousel */}
-          <div className="order-1 lg:order-2 lg:col-span-3">
-            <Carousel
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              plugins={[plugin.current]}
-              className="w-full"
-            >
-              <CarouselContent>
-                {featuredProducts.map((product, index) => (
-                  <CarouselItem key={product.id}>
-                    <Link
-                      href={`/product/${product.id}`}
-                      className="group relative block overflow-hidden rounded-2xl bg-muted"
-                    >
-                      <div className="relative aspect-square md:aspect-[4/5]">
-                        <Image
-                          src={product.image}
-                          alt={product.name}
-                          fill
-                          className="object-cover transition-all duration-700 group-hover:scale-105"
-                          priority
-                        />
-                        {/* Animated overlay on hover */}
-                        <div className="absolute inset-0 bg-black/0 transition-all duration-500 group-hover:bg-black/20" />
-                        {product.badge && (
-                          <Badge className="absolute left-4 top-4 bg-primary text-primary-foreground shadow-lg">
-                            {product.badge}
-                          </Badge>
-                        )}
-                      </div>
-                      {/* Product info with slide-up animation on hover */}
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6">
-                        <div className="transform transition-transform duration-300 group-hover:-translate-y-2">
-                          <p className="text-lg font-semibold text-white md:text-xl">
-                            {product.name}
-                          </p>
-                          <div className="mt-1 flex items-center justify-between">
-                            <p className="text-xl font-bold text-white">${product.price}</p>
-                            <span className="flex items-center text-sm text-white/80">
-                              View Details
-                              <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="left-4 border-white/20 bg-white/10 text-white backdrop-blur-md transition-all hover:bg-white/20 hover:scale-110" />
-              <CarouselNext className="right-4 border-white/20 bg-white/10 text-white backdrop-blur-md transition-all hover:bg-white/20 hover:scale-110" />
-            </Carousel>
-          </div>
+      {/* Navigation Controls */}
+      <div className="absolute bottom-8 right-6 lg:right-12 z-10 flex items-center gap-4">
+        {/* Dots Indicator */}
+        <div className="flex gap-2">
+          {featuredProducts.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`transition-all duration-300 ${
+                index === currentIndex
+                  ? "w-12 h-1.5 bg-white"
+                  : "w-8 h-1.5 bg-white/40 hover:bg-white/60"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Arrow Buttons */}
+        <div className="flex gap-2">
+          <button
+            onClick={prev}
+            className="h-12 w-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all"
+            aria-label="Previous slide"
+          >
+            <ChevronLeft className="h-6 w-6" />
+          </button>
+          <button
+            onClick={next}
+            className="h-12 w-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all"
+            aria-label="Next slide"
+          >
+            <ChevronRight className="h-6 w-6" />
+          </button>
         </div>
       </div>
+
+      {/* Quick Links - Top Right */}
+      <motion.div
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.7, duration: 0.6 }}
+        className="absolute top-8 right-6 lg:right-12 z-10"
+      >
+        <Link
+          href="/shop"
+          className="text-white/80 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 group"
+        >
+          View All Products
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        </Link>
+      </motion.div>
     </section>
   );
+}
+
+// Catchy headlines per product
+function getHeadline(index: number): string {
+  const headlines = [
+    "Elevate Your Style",
+    "Where Quality Meets Design",
+    "Made for the Bold",
+    "Redefine Your Space",
+    "Crafted to Perfection",
+  ];
+  return headlines[index] || headlines[0];
+}
+
+// Product descriptions
+function getDescription(index: number): string {
+  const descriptions = [
+    "Experience premium craftsmanship with our exclusive collection. Every detail matters.",
+    "Designed for those who refuse to settle. Exceptional quality, timeless style.",
+    "Stand out from the crowd. Bold designs that make a statement.",
+    "Transform your everyday with products that inspire. Quality you can feel.",
+    "Meticulously crafted with attention to every detail. Excellence delivered.",
+  ];
+  return descriptions[index] || descriptions[0];
 }
