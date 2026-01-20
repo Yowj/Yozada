@@ -23,6 +23,7 @@ const nextConfig: NextConfig = {
         hostname: "avatar.vercel.sh",
       },
     ],
+    qualities: [100, 75],
   },
 };
 

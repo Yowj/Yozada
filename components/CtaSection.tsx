@@ -102,7 +102,7 @@ export function CtaSection() {
             <Magnetic strength={0.1}>
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                 <Button size="lg" asChild className="group relative h-12 px-8 text-base">
-                  <Link href="/products">
+                  <Link href="/shop">
                     <span className="relative z-10 flex items-center">
                       Start Shopping
                       <motion.span
