@@ -6,7 +6,7 @@ import { Menu, SearchCheckIcon, SearchIcon, X } from "lucide-react";
 import { Input } from "@/ui/input";
 import { Button } from "@/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/ui/sheet";
-import { Search } from "@/ui/search";
+import { Search } from "@/components/search";
 import Image from "next/image";
 import { ThemeSwitcher } from "./theme-switcher";
 import { AuthNav } from "../ui/navbar/auth-nav";

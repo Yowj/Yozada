@@ -7,6 +7,7 @@ import { useProducts } from "@/lib/contexts/ProductsProvider";
 import { Product } from "@/lib/types";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export function Search({ className }: { className?: string }) {
   const [query, setQuery] = useState("");
@@ -23,7 +24,7 @@ export function Search({ className }: { className?: string }) {
       return;
     }
     const data = products.filter((product) =>
-      product.name.toLowerCase().includes(term.toLowerCase())
+      product.name.toLowerCase().includes(term.toLowerCase()),
     );
     setFilteredProducts(data);
     setIsOpen(true);
@@ -85,29 +86,20 @@ export function Search({ className }: { className?: string }) {
           <ul className="max-h-96 overflow-y-auto py-2">
             {filteredProducts.map((product) => (
               <li key={product.id}>
-                <a
-                  href={`/products/${product.id}`}
+                <Link
+                  href={`/product/${product.id}`}
                   className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-muted"
                   onClick={() => setIsOpen(false)}
                 >
                   {/* Product Image */}
                   <div className="relative size-12 shrink-0 overflow-hidden rounded-md bg-muted">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-cover"
-                    />
+                    <Image src={product.image} alt={product.name} fill className="object-cover" />
                   </div>
 
                   {/* Product Info */}
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium text-foreground">
-                      {product.name}
-                    </p>
-                    <p className="truncate text-xs text-muted-foreground">
-                      {product.description}
-                    </p>
+                    <p className="truncate text-sm font-medium text-foreground">{product.name}</p>
+                    <p className="truncate text-xs text-muted-foreground">{product.description}</p>
                   </div>
 
                   {/* Price */}
@@ -121,7 +113,7 @@ export function Search({ className }: { className?: string }) {
                       </span>
                     )}
                   </div>
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
