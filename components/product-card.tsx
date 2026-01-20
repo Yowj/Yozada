@@ -75,6 +75,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"
               quality={100}
+              priority
             />
 
             {/* Badge - Top Left */}
