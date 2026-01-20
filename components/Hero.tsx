@@ -30,7 +30,7 @@ export function HeroSection({ featuredProducts }: HeroSectionProps) {
     setCurrentIndex((prev) => (prev - 1 + featuredProducts.length) % featuredProducts.length);
 
   return (
-    <section className="relative h-screen min-h-[600px] max-h-[900px] w-full overflow-hidden bg-black">
+    <section className="relative h-[100svh] min-h-[500px] md:min-h-[600px] max-h-[900px] w-full overflow-hidden bg-black">
       {/* Full-Width Landscape Carousel */}
       <AnimatePresence initial={false} mode="popLayout">
         <motion.div
@@ -38,8 +38,8 @@ export function HeroSection({ featuredProducts }: HeroSectionProps) {
           initial={{ x: 1000 }}
           animate={{ x: 0 }}
           exit={{ x: -1000 }}
-          transition={{ 
-            duration: 0.6, 
+          transition={{
+            duration: 0.6,
             ease: [0.22, 1, 0.36, 1]
           }}
           className="absolute inset-0"
@@ -56,13 +56,13 @@ export function HeroSection({ featuredProducts }: HeroSectionProps) {
               priority
             />
             {/* Gradient Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent md:from-black/80 md:via-black/40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 md:from-black/60 md:to-black/20" />
           </div>
 
           {/* Content Container */}
-          <div className="relative h-full flex items-center">
-            <div className="w-full max-w-[1600px] mx-auto px-6 lg:px-12">
+          <div className="relative h-full flex items-end pb-24 md:items-center md:pb-0">
+            <div className="w-full max-w-[1600px] mx-auto px-4 md:px-6 lg:px-12">
               <div className="max-w-2xl">
                 {/* Badge */}
                 <motion.div
@@ -71,7 +71,7 @@ export function HeroSection({ featuredProducts }: HeroSectionProps) {
                   transition={{ delay: 0.2, duration: 0.6 }}
                 >
                   {currentProduct.badge && (
-                    <Badge className="mb-6 bg-white/10 backdrop-blur-md text-white border-white/20 hover:bg-white/20">
+                    <Badge className="mb-3 md:mb-6 bg-white/10 backdrop-blur-md text-white text-xs md:text-sm border-white/20 hover:bg-white/20">
                       {currentProduct.badge}
                     </Badge>
                   )}
@@ -82,7 +82,7 @@ export function HeroSection({ featuredProducts }: HeroSectionProps) {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3, duration: 0.7 }}
-                  className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-6 leading-[0.95]"
+                  className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-3 md:mb-6 leading-[1] md:leading-[0.95]"
                 >
                   {getHeadline(currentIndex)}
                 </motion.h1>
@@ -92,12 +92,14 @@ export function HeroSection({ featuredProducts }: HeroSectionProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.6 }}
-                  className="mb-8"
+                  className="mb-4 md:mb-8"
                 >
-                  <h2 className="text-2xl md:text-3xl font-semibold text-white mb-3">
+                  <h2 className="text-lg sm:text-xl md:text-3xl font-semibold text-white mb-1.5 md:mb-3">
                     {currentProduct.name}
                   </h2>
-                  <p className="text-lg text-white/80 max-w-xl">{getDescription(currentIndex)}</p>
+                  <p className="text-sm md:text-lg text-white/70 md:text-white/80 max-w-xl line-clamp-2 md:line-clamp-none">
+                    {getDescription(currentIndex)}
+                  </p>
                 </motion.div>
 
                 {/* Price & CTA */}
@@ -105,45 +107,47 @@ export function HeroSection({ featuredProducts }: HeroSectionProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5, duration: 0.6 }}
-                  className="flex flex-wrap items-center gap-6"
+                  className="flex flex-wrap items-center gap-3 md:gap-6"
                 >
-                  <div className="flex items-baseline gap-3">
-                    <span className="text-5xl font-bold text-white">${currentProduct.price}</span>
-                    <span className="text-lg text-white/60 line-through">
+                  <div className="flex items-baseline gap-2 md:gap-3">
+                    <span className="text-2xl sm:text-3xl md:text-5xl font-bold text-white">
+                      ${currentProduct.price}
+                    </span>
+                    <span className="text-sm md:text-lg text-white/60 line-through">
                       ${Math.floor(currentProduct.price * 1.3)}
                     </span>
                   </div>
 
                   <Button
                     size="lg"
-                    className="bg-white text-black hover:bg-white/90 text-base px-8 h-14"
+                    className="bg-white text-black hover:bg-white/90 text-sm md:text-base px-5 md:px-8 h-10 md:h-14"
                     asChild
                   >
                     <Link href={`/product/${currentProduct.id}`}>
                       Shop Now
-                      <ArrowRight className="ml-2 h-5 w-5" />
+                      <ArrowRight className="ml-1.5 md:ml-2 h-4 w-4 md:h-5 md:w-5" />
                     </Link>
                   </Button>
                 </motion.div>
 
-                {/* Trust Indicators */}
+                {/* Trust Indicators - Hidden on small mobile, visible from sm */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6, duration: 0.6 }}
-                  className="flex flex-wrap gap-8 mt-12 pt-8 border-t border-white/20"
+                  className="hidden sm:flex flex-wrap gap-4 md:gap-8 mt-6 md:mt-12 pt-4 md:pt-8 border-t border-white/20"
                 >
                   <div>
-                    <p className="text-2xl font-bold text-white">Free Shipping</p>
-                    <p className="text-sm text-white/60">On orders over $50</p>
+                    <p className="text-base md:text-2xl font-bold text-white">Free Shipping</p>
+                    <p className="text-xs md:text-sm text-white/60">On orders over $50</p>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-white">2-Day Delivery</p>
-                    <p className="text-sm text-white/60">Fast & reliable</p>
+                    <p className="text-base md:text-2xl font-bold text-white">2-Day Delivery</p>
+                    <p className="text-xs md:text-sm text-white/60">Fast & reliable</p>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-white">4.9★</p>
-                    <p className="text-sm text-white/60">10K+ reviews</p>
+                    <p className="text-base md:text-2xl font-bold text-white">4.9★</p>
+                    <p className="text-xs md:text-sm text-white/60">10K+ reviews</p>
                   </div>
                 </motion.div>
               </div>
@@ -153,17 +157,17 @@ export function HeroSection({ featuredProducts }: HeroSectionProps) {
       </AnimatePresence>
 
       {/* Navigation Controls */}
-      <div className="absolute bottom-8 right-6 lg:right-12 z-10 flex items-center gap-4">
+      <div className="absolute bottom-4 md:bottom-8 right-4 md:right-6 lg:right-12 z-10 flex items-center gap-2 md:gap-4">
         {/* Dots Indicator */}
-        <div className="flex gap-2">
+        <div className="flex gap-1.5 md:gap-2">
           {featuredProducts.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
               className={`transition-all duration-300 ${
                 index === currentIndex
-                  ? "w-12 h-1.5 bg-white"
-                  : "w-8 h-1.5 bg-white/40 hover:bg-white/60"
+                  ? "w-8 md:w-12 h-1 md:h-1.5 bg-white"
+                  : "w-5 md:w-8 h-1 md:h-1.5 bg-white/40 hover:bg-white/60"
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />
@@ -171,30 +175,30 @@ export function HeroSection({ featuredProducts }: HeroSectionProps) {
         </div>
 
         {/* Arrow Buttons */}
-        <div className="flex gap-2">
+        <div className="flex gap-1.5 md:gap-2">
           <button
             onClick={prev}
-            className="h-12 w-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all"
+            className="h-9 w-9 md:h-12 md:w-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all"
             aria-label="Previous slide"
           >
-            <ChevronLeft className="h-6 w-6" />
+            <ChevronLeft className="h-4 w-4 md:h-6 md:w-6" />
           </button>
           <button
             onClick={next}
-            className="h-12 w-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all"
+            className="h-9 w-9 md:h-12 md:w-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all"
             aria-label="Next slide"
           >
-            <ChevronRight className="h-6 w-6" />
+            <ChevronRight className="h-4 w-4 md:h-6 md:w-6" />
           </button>
         </div>
       </div>
 
-      {/* Quick Links - Top Right */}
+      {/* Quick Links - Top Right - Hidden on mobile */}
       <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.7, duration: 0.6 }}
-        className="absolute top-8 right-6 lg:right-12 z-10"
+        className="hidden md:block absolute top-8 right-6 lg:right-12 z-10"
       >
         <Link
           href="/shop"

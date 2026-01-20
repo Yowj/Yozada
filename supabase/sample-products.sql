@@ -1,5 +1,5 @@
 -- Sample Products SQL for Supabase
--- 10 sample products with landscape HD images (1920x1080 or similar)
+-- 20 sample products with landscape HD images (1920x1080 or similar)
 
 INSERT INTO products (id, name, price, image, badge, featured, description, category, stock, created_at, updated_at)
 VALUES
@@ -130,6 +130,136 @@ VALUES
     'Premium mechanical keyboard with RGB backlighting. Hot-swappable switches, aluminum frame, and customizable per-key lighting.',
     'Electronics',
     30,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Leather Messenger Bag',
+    3299.00,
+    'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=1920&q=80&fit=crop',
+    'New',
+    true,
+    'Handcrafted full-grain leather messenger bag. Fits 15-inch laptops, multiple compartments, adjustable shoulder strap, and antique brass hardware.',
+    'Accessories',
+    25,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Wireless Earbuds Elite',
+    2999.00,
+    'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=1920&q=80&fit=crop',
+    'Bestseller',
+    true,
+    'True wireless earbuds with active noise cancellation. 24-hour battery life with case, IPX5 water resistance, and premium sound quality.',
+    'Electronics',
+    75,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Minimalist Desk Lamp',
+    1899.00,
+    'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=1920&q=80&fit=crop',
+    NULL,
+    false,
+    'Modern LED desk lamp with adjustable brightness. Touch controls, USB charging port, flexible gooseneck, and energy-efficient design.',
+    'Home & Living',
+    45,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Premium Yoga Mat',
+    1499.00,
+    'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=1920&q=80&fit=crop',
+    'Sale',
+    false,
+    'Extra-thick eco-friendly yoga mat. Non-slip surface, alignment markers, includes carrying strap, perfect for yoga and pilates.',
+    'Sports',
+    60,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Smart Fitness Watch',
+    7999.00,
+    'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=1920&q=80&fit=crop',
+    'New',
+    true,
+    'Advanced fitness smartwatch with GPS tracking. Heart rate monitor, sleep tracking, 50+ workout modes, and 7-day battery life.',
+    'Electronics',
+    40,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Vintage Denim Jacket',
+    2799.00,
+    'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=1920&q=80&fit=crop',
+    'Limited',
+    false,
+    'Classic vintage-style denim jacket. Premium selvedge denim, brass buttons, adjustable waist tabs, and timeless design.',
+    'Clothing',
+    30,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Portable Bluetooth Speaker',
+    1999.00,
+    'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=1920&q=80&fit=crop',
+    'Bestseller',
+    false,
+    'Waterproof portable speaker with 360-degree sound. 20-hour playtime, built-in microphone, and rugged design for outdoor adventures.',
+    'Electronics',
+    85,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Scented Candle Set',
+    999.00,
+    'https://images.unsplash.com/photo-1602607537277-5c56d832b63f?w=1920&q=80&fit=crop',
+    NULL,
+    false,
+    'Luxury soy wax candle set with 3 signature scents. Hand-poured, 40-hour burn time each, elegant glass containers with wooden lids.',
+    'Home & Living',
+    100,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Classic Aviator Jacket',
+    8999.00,
+    'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=1920&q=80&fit=crop',
+    'Limited',
+    true,
+    'Genuine leather aviator jacket with shearling collar. Premium quality, warm quilted lining, multiple pockets, and timeless style.',
+    'Clothing',
+    15,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Stainless Steel Water Bottle',
+    799.00,
+    'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=1920&q=80&fit=crop',
+    'Sale',
+    false,
+    'Double-wall insulated water bottle. Keeps drinks cold 24hrs or hot 12hrs, BPA-free, leak-proof lid, and eco-friendly design.',
+    'Sports',
+    150,
     NOW(),
     NOW()
   );
