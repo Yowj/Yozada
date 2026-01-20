@@ -1,0 +1,135 @@
+-- Sample Products SQL for Supabase
+-- 10 sample products with landscape HD images (1920x1080 or similar)
+
+INSERT INTO products (id, name, price, image, badge, featured, description, category, stock, created_at, updated_at)
+VALUES
+  (
+    gen_random_uuid(),
+    'Premium Wireless Headphones',
+    4999.00,
+    'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1920&q=80&fit=crop',
+    'Bestseller',
+    true,
+    'Experience crystal-clear audio with our premium wireless headphones. Features active noise cancellation, 30-hour battery life, and ultra-comfortable ear cushions.',
+    'Electronics',
+    50,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Minimalist Leather Watch',
+    2499.00,
+    'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1920&q=80&fit=crop',
+    'New',
+    true,
+    'Elegant minimalist watch with genuine leather strap. Japanese quartz movement, water-resistant up to 30 meters, and scratch-resistant sapphire crystal.',
+    'Accessories',
+    35,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Professional Camera Lens',
+    15999.00,
+    'https://images.unsplash.com/photo-1617005082133-548c4dd27f35?w=1920&q=80&fit=crop',
+    NULL,
+    true,
+    'Professional-grade 50mm f/1.4 prime lens. Perfect for portraits and low-light photography with stunning bokeh effect.',
+    'Electronics',
+    15,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Organic Cotton T-Shirt',
+    899.00,
+    'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=1920&q=80&fit=crop',
+    'Sale',
+    false,
+    'Soft and breathable organic cotton t-shirt. Ethically sourced, pre-shrunk fabric with a relaxed fit for everyday comfort.',
+    'Clothing',
+    120,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Smart Home Speaker',
+    3499.00,
+    'https://images.unsplash.com/photo-1543512214-318c7553f230?w=1920&q=80&fit=crop',
+    'New',
+    true,
+    'Voice-controlled smart speaker with premium sound quality. Built-in virtual assistant, multi-room audio support, and sleek modern design.',
+    'Electronics',
+    40,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Handcrafted Ceramic Mug',
+    599.00,
+    'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=1920&q=80&fit=crop',
+    NULL,
+    false,
+    'Beautifully handcrafted ceramic mug with unique glaze finish. Microwave and dishwasher safe, holds 350ml of your favorite beverage.',
+    'Home & Living',
+    80,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Running Shoes Pro',
+    5499.00,
+    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1920&q=80&fit=crop',
+    'Bestseller',
+    true,
+    'High-performance running shoes with responsive cushioning. Breathable mesh upper, durable rubber outsole, and energy-return technology.',
+    'Footwear',
+    65,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Vintage Polaroid Camera',
+    6999.00,
+    'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=1920&q=80&fit=crop',
+    'Limited',
+    false,
+    'Classic instant camera with modern features. Auto-exposure, built-in flash, and compatible with standard instant film.',
+    'Electronics',
+    20,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Bamboo Sunglasses',
+    1299.00,
+    'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=1920&q=80&fit=crop',
+    'Sale',
+    false,
+    'Eco-friendly sunglasses with bamboo frames. UV400 protection, polarized lenses, and lightweight design for all-day comfort.',
+    'Accessories',
+    55,
+    NOW(),
+    NOW()
+  ),
+  (
+    gen_random_uuid(),
+    'Mechanical Keyboard RGB',
+    4299.00,
+    'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=1920&q=80&fit=crop',
+    'New',
+    true,
+    'Premium mechanical keyboard with RGB backlighting. Hot-swappable switches, aluminum frame, and customizable per-key lighting.',
+    'Electronics',
+    30,
+    NOW(),
+    NOW()
+  );

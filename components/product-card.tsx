@@ -70,7 +70,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           {/* Image Container - Bigger, cleaner */}
           <div className="relative aspect-[3/4] overflow-hidden bg-muted">
             <Image
-              src={product?.image}
+              src={product.image || "/placeholder.png"}
               alt={product.name}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"

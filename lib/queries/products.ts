@@ -30,7 +30,7 @@ export async function getFeaturedProducts(): Promise<Product[]> {
     .from("products")
     .select("*")
     .eq("featured", true)
-    .order("id", { ascending: true });
+    .order("created_at", { ascending: true });
 
   if (error) {
     console.error("Error fetching featured products:", error);
